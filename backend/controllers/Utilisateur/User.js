@@ -2,7 +2,7 @@
 const bcrypt = require("bcrypt");
 const Users = require("../../models/Users");
 
-
+// A vérifier 
 // ------------- Modifier un mot de passe --------------------
 
 module.exports.changePassword = async(req,res)=>{
