@@ -1,0 +1,81 @@
+<div class="row justify-content-center p-3">
+  <div class="col-md-10">
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title fw-bolder text-center">Modifier un étudiant</h2>
+        <form [formGroup]="updateEtudiantForm" (ngSubmit)="onSubmit()">
+          <div class="row justify-content-around mt-4">
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="nom" class="fw-bold mb-2">Nom : </label>
+                <input formControlName="nom" name= "nom" type="text" class="form-control" id="nom">
+                <div *ngIf="updateEtudiantForm.controls['nom'].invalid && (updateEtudiantForm.controls['nom'].dirty || updateEtudiantForm.controls['nom'].touched)" class="mt-2">
+                  <div *ngIf="updateEtudiantForm.controls['nom'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="prenom" class="fw-bold mb-2">Prénom : </label>
+                <input formControlName="prenom" name= "prenom" type="text" class="form-control" id="prenom">
+                <div *ngIf="updateEtudiantForm.controls['prenom'].invalid && (updateEtudiantForm.controls['prenom'].dirty || updateEtudiantForm.controls['prenom'].touched)" class="mt-2">
+                  <div *ngIf="updateEtudiantForm.controls['prenom'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="date" class="fw-bold mb-2">Date de naissance : </label>
+                <input formControlName="date" value="{{data.dateNaissance | date : 'yyyy-MM-dd'}}"  name= "date" type="date" class="form-control" id="date">
+                <div *ngIf="updateEtudiantForm.controls['date'].invalid && (updateEtudiantForm.controls['date'].dirty || updateEtudiantForm.controls['date'].touched)" class="mt-2">
+                  <div *ngIf="updateEtudiantForm.controls['date'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="email" class="fw-bold mb-2">E-mail : </label>
+                <input formControlName="email" name= "email" type="text" class="form-control" id="email" aria-describedby="emailHelp">
+                <div *ngIf="updateEtudiantForm.controls['email'].invalid && (updateEtudiantForm.controls['email'].dirty || updateEtudiantForm.controls['email'].touched)" class="mt-2">
+                  <div *ngIf="updateEtudiantForm.controls['email'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                  <div *ngIf="updateEtudiantForm.controls['email'].errors?.['email']">
+                    <span class="text-danger">Ce n'est pas un email</span>
+                   </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="sexe" class="fw-bold mb-2">Sexe : </label>
+                <select formControlName="sexe" name="sexe" class="form-control" id="sexe">
+                  <option value="">Choisissez un sexe</option>
+                  <option value="homme">Homme</option>
+                  <option value="femme">Femme</option>
+                </select>
+                <div *ngIf="updateEtudiantForm.controls['sexe'].invalid && (updateEtudiantForm.controls['sexe'].dirty || updateEtudiantForm.controls['sexe'].touched)" class="mt-2">
+                  <div *ngIf="updateEtudiantForm.controls['sexe'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="success" [disabled]="!updateEtudiantForm.valid" type="submit" class="btn bg-success mt-3 text-center btn">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person_add"></mat-icon>
+            <span>
+              Modifier
+            </span>
+          </button>
+       </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="row justify-content-center p-3">
+  <div class="col-md-10">
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title fw-bolder text-center"> Information de l'enseignant : </h2>
+        <form >
+          <div class="row justify-content-around mt-4">
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="nom" class="fw-bold mb-2">Nom : </label>
+                <input disabled [(ngModel)]="nom" name= "nom" type="text" class="form-control" id="nom">
+              </div>
+              <div class="form-group my-2">
+                <label for="prenom" class="fw-bold mb-2">Prénom : </label>
+                <input disabled [(ngModel)]="prenom" name= "prenom" type="text" class="form-control" id="prenom">
+              </div>
+              <div class="form-group my-2">
+                <label for="date" class="fw-bold mb-2">Date de naissance : </label>
+                <input disabled value="{{date | date: 'yyyy-MM-dd'}}"  name= "date" type="date" class="form-control" id="date">
+
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="email" class="fw-bold mb-2">E-mail : </label>
+                <input disabled [(ngModel)]="email" name= "email" type="text" class="form-control" id="email" aria-describedby="emailHelp">
+              </div>
+              <div class="form-group my-2">
+                <label for="sexe" class="fw-bold mb-2">Sexe : </label>
+                <select disabled [(ngModel)]="sexe" name="sexe" class="form-control" id="sexe">
+                  <option value="">Choisissez un sexe</option>
+                  <option value="homme">Homme</option>
+                  <option value="femme">Femme</option>
+                </select>
+              </div>
+              <div class="form-group my-2">
+                <label for="createdAt" class="fw-bold mb-2">Date de création : </label>
+                <input disabled value="{{createdAt | date : 'yyyy-MM-dd hh:mm'}}" name= "createdAt" type="text" class="form-control" id="createdAt" >
+              </div>
+            </div>
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="warning" type="submit" class="btn bg-warning mt-3 text-center btn" routerLink="/dashbord/enseignant">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back"></mat-icon>
+            <span>
+              Retour
+            </span>
+          </button>
+       </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

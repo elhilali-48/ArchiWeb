@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import {Router, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router'
+import {CookieService} from 'ngx-cookie-service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+  test ="Abdel"
+
+  constructor(private _router:Router, private cookieService : CookieService) {
+
+  }
+
+
 }

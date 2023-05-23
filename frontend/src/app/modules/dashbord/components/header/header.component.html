@@ -1,0 +1,78 @@
+<mat-toolbar class="px-"> ArchiWeb </mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened>
+    <img
+    class="avatar mat-elevation-z8"
+    src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
+  />
+
+  <h4 class="name">{{data.info[0].nom | uppercase}}</h4>
+  <p class="designation">{{data.role}}</p>
+  <!-- Etudiant -->
+  <div *ngIf="data.role === 'Etudiant'">
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">Dashboard</mat-icon>
+      <span >Dashbord</span>
+    </button>
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">home</mat-icon>
+      <span >Mes projets</span>
+    </button>
+  </div>
+  <!-- Admin -->
+  <div *ngIf="data.role === 'Admin'">
+    <button mat-button class="menu-button" routerLink="/">
+      <mat-icon class="icon-header">dashboard</mat-icon>
+      <span >Dashbord</span>
+    </button>
+    <button mat-button class="menu-button" routerLinkActive="active" routerLink="enseignant">
+      <mat-icon class="icon-header">group</mat-icon>
+      <span >Enseignants</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="etudiant">
+      <mat-icon class="icon-header">person_add</mat-icon>
+      <span >Etudiants</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="etudiant" *ngIf="data.info[0].isSuperAdmin">
+      <mat-icon class="icon-header">person_add</mat-icon>
+      <span >Administrateurs</span>
+    </button>
+  </div>
+  <!-- Enseignats -->
+  <div *ngIf="data.role === 'Enseignant'">
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">home</mat-icon>
+      <span >Dashbord</span>
+    </button>
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">home</mat-icon>
+      <span >Projets</span>
+    </button>
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">home</mat-icon>
+      <span >Compétences</span>
+    </button>
+  </div>
+
+    <mat-divider>
+
+    </mat-divider>
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">folder_shared</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-button class="menu-button">
+      <mat-icon class="icon-header">help</mat-icon>
+      <span>Help</span>
+    </button>
+    <button mat-button class="menu-button" (click)="logout()">
+      <mat-icon class="icon-header">logout</mat-icon>
+      <span>Se déconnecter</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z5">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

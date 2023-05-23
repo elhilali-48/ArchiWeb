@@ -4,7 +4,14 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const app = express()
 const cors = require("cors")
+// Import Package Authentification 
+const passport = require("passport")
+const session = require("express-session")
+const LocalStrategy = require("passport-local").Strategy
 
+// Import Nodemailer
+
+const nodemailer = require('nodemailer')
 // ----------------- Routes --------------------------
 
 const routeAdmin = require('./routes/Utilisateur/Administrateur')
@@ -12,6 +19,7 @@ const routeEnseignant = require('./routes/Utilisateur/Enseignant')
 const routeEtudiant = require('./routes/Utilisateur/Etudiant')
 const routeUser = require('./routes/Utilisateur/User')
 
+const control = require('./controllers/Utilisateur/User')
 // Accéder à la partie Front-end Angular :
 
 app.use(
@@ -43,5 +51,21 @@ app.use('/admin',routeAdmin)
 app.use('/enseignant',routeEnseignant)
 app.use('/etudiant',routeEtudiant)
 app.use('/user',routeUser)
+
+app.use(session({
+    secret: "secret",
+    resave: false ,
+    saveUninitialized: true ,
+  }))
+
+app.use(passport.initialize()) 
+
+app.use(passport.session())
+
+passport.use(new LocalStrategy(control.login))
+
+
+// Nodemailer : 
+
 
 module.exports = app

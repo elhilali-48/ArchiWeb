@@ -97,3 +97,49 @@ module.exports.updateAdmin = async(req,res)=>{
     res.status(500).json({error : error.message})
   }
 }
+
+
+// Récupere tous les enseignants 
+
+module.exports.getAllEnseignats = async(req,res)=>{
+  // try{
+
+  //   const enseignants = await Users.find({role : "Enseignant"});
+  //   res.status(200).json({status : res.statusCode, data : enseignants})
+
+  // }catch{
+  //   res.status(500).json({status : res.statusCode, message : error.message})
+  // }
+
+  try {
+    const totalRecords = await Users.countDocuments({ role: req.query.role });
+
+    const dataTablesParams = req.query; // Récupérer les paramètres envoyés par DataTables
+
+    const filters = { role: req.query.role }; // Définir vos filtres de recherche ici
+
+    // Appliquer les paramètres de recherche de DataTables
+    if (dataTablesParams.search && dataTablesParams.search.value) {
+      const searchValue = dataTablesParams.search.value;
+      const searchRegex = new RegExp(searchValue, 'i');
+      filters.$or = [
+        { email: searchRegex },
+      ];
+    }
+
+    const filteredRecords = await Users.countDocuments(filters);
+
+    const enseignants = await Users.find(filters)
+      .skip(dataTablesParams.start)
+      .limit(dataTablesParams.length);
+
+    res.status(200).json({
+      status: res.statusCode,
+      data: enseignants,
+      recordsTotal: totalRecords,
+      recordsFiltered: filteredRecords
+    });
+  } catch (error) {
+    res.status(500).json({ status: res.statusCode, message: error.message });
+  }
+}

@@ -13,4 +13,6 @@ router.delete('/delete/:id',adminControleur.deleteAdmin);
 router.put('/update/:id',adminControleur.updateAdmin);
 
 
+router.get('/getAllEnseignats',adminControleur.getAllEnseignats)
+
 module.exports = router

@@ -25,7 +25,7 @@ const enseignantSchema = mongoose.Schema({
     sexe : {
         type : String,
         required : true,
-        enum: ['masculin', 'féminin']
+        enum: ['homme', 'femme']
     },
     user_id : {
         type : mongoose.Schema.Types.ObjectId,

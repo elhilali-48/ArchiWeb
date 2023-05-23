@@ -1,0 +1,81 @@
+<div class="row justify-content-center p-3">
+  <div class="col-md-10">
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title fw-bolder text-center">Modifier un enseignant</h2>
+        <form [formGroup]="updateEnseignantForm" (ngSubmit)="onSubmit()">
+          <div class="row justify-content-around mt-4">
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="nom" class="fw-bold mb-2">Nom : </label>
+                <input formControlName="nom" name= "nom" type="text" class="form-control" id="nom">
+                <div *ngIf="updateEnseignantForm.controls['nom'].invalid && (updateEnseignantForm.controls['nom'].dirty || updateEnseignantForm.controls['nom'].touched)" class="mt-2">
+                  <div *ngIf="updateEnseignantForm.controls['nom'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="prenom" class="fw-bold mb-2">Prénom : </label>
+                <input formControlName="prenom" name= "prenom" type="text" class="form-control" id="prenom">
+                <div *ngIf="updateEnseignantForm.controls['prenom'].invalid && (updateEnseignantForm.controls['prenom'].dirty || updateEnseignantForm.controls['prenom'].touched)" class="mt-2">
+                  <div *ngIf="updateEnseignantForm.controls['prenom'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="date" class="fw-bold mb-2">Date de naissance : </label>
+                <input formControlName="date" value="{{data.dateNaissance | date : 'yyyy-MM-dd'}}"  name= "date" type="date" class="form-control" id="date">
+                <div *ngIf="updateEnseignantForm.controls['date'].invalid && (updateEnseignantForm.controls['date'].dirty || updateEnseignantForm.controls['date'].touched)" class="mt-2">
+                  <div *ngIf="updateEnseignantForm.controls['date'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="email" class="fw-bold mb-2">E-mail : </label>
+                <input formControlName="email" name= "email" type="text" class="form-control" id="email" aria-describedby="emailHelp">
+                <div *ngIf="updateEnseignantForm.controls['email'].invalid && (updateEnseignantForm.controls['email'].dirty || updateEnseignantForm.controls['email'].touched)" class="mt-2">
+                  <div *ngIf="updateEnseignantForm.controls['email'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                  <div *ngIf="updateEnseignantForm.controls['email'].errors?.['email']">
+                    <span class="text-danger">Ce n'est pas un email</span>
+                   </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="sexe" class="fw-bold mb-2">Sexe : </label>
+                <select formControlName="sexe" name="sexe" class="form-control" id="sexe">
+                  <option value="">Choisissez un sexe</option>
+                  <option value="homme">Homme</option>
+                  <option value="femme">Femme</option>
+                </select>
+                <div *ngIf="updateEnseignantForm.controls['sexe'].invalid && (updateEnseignantForm.controls['sexe'].dirty || updateEnseignantForm.controls['sexe'].touched)" class="mt-2">
+                  <div *ngIf="updateEnseignantForm.controls['sexe'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="success" [disabled]="!updateEnseignantForm.valid" type="submit" class="btn bg-success mt-3 text-center btn">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person_add"></mat-icon>
+            <span>
+              Modifier
+            </span>
+          </button>
+       </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

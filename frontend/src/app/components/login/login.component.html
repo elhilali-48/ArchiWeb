@@ -1,0 +1,42 @@
+<div class="row d-flex justify-content-center mx-3 my-3 p-5">
+  <div class='col-md-6'>
+  <img src="https://preview.colorlib.com/theme/bootstrap/login-form-07/images/undraw_remotely_2j6y.svg" alt="Girl in a jacket" width="500" height="400">
+  </div>
+  <div class="col-md-4 my-2">
+      <div class="card border border-3 rounded">
+          <div class="card-title p-4">
+              <h3 class="text-bold text-center" style="color : #2E74B5; font-size : 35px;">Connexion</h3>
+              <p class="text-bold fw-italic text-center h5">Bienvenue </p>
+          </div>
+          <div class="card-body">
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                      <label for="email" class="fw-bold mb-2">E-mail : </label>
+                      <input formControlName="email"  name= "email" type="text" class="form-control" id="email" aria-describedby="emailHelp">
+                      <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" class="mt-2">
+                        <div *ngIf="loginForm.controls['email'].errors?.['required']">
+                         <span class="text-danger">Ce champs est obligatoire</span>
+                        </div>
+                        <div *ngIf="loginForm.controls['email'].errors?.['email']">
+                          <span class="text-danger">Ce n'est pas un email</span>
+                         </div>
+                      </div>
+                    </div>
+                  <div class="form-group my-3">
+                      <label for="password" class="fw-bold mb-2">Mot de passe : </label>
+                      <input formControlName="password" name="password" type="password" class="form-control" id="password">
+                      <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="mt-2">
+                        <div *ngIf="loginForm.controls['password'].errors?.['required']">
+                         <span class="text-danger">Ce champs est obligatoire</span>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="text-center">
+                       <button [disabled]="!loginForm.valid" type="submit" class="btn btn-success mt-3 text-center btn-lg" style="background-color : #2E74B5; color : white; font-size : 20px;">Se connecter</button>
+                  </div>
+
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

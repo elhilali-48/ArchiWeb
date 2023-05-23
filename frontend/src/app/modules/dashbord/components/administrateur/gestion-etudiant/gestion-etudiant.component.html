@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="">
+    <button class="btn btn-outline-success float-end btn-sm m-3" routerLinkActive="active" routerLink="/dashbord/ajouter_etudiant">Ajouter</button>
+    <h2 class=" text-center fw-bolder py-3">Gestion des étudiants</h2>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-12 p-4">
+      <table datatable class="row-border" [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Email</th>
+            <th>Date de naissance</th>
+            <th>Date de création</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="persons?.length != 0">
+          <tr *ngFor="let person of persons">
+            <td>{{person._id}}</td>
+            <td>{{person.email}}</td>
+            <td>{{person.role}}</td>
+            <td>{{person.createdAt | date}}</td>
+            <td>
+              <button class="btn btn-secondary btn-sm mx-1" (click)="afficherEtudiant(person._id)">
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+              <button class="btn btn-primary btn-sm mx-1" (click)="updateEtudiant(person._id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button class="btn btn-warning btn-sm " (click)="deleteEtudiant(person._id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="persons?.length == 0">
+          <tr *ngFor="let person of persons">
+            <td colspan="4" class="no-data-available">
+              Aucun enregistrement trouvé !!
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
