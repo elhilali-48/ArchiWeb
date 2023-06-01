@@ -24,7 +24,7 @@ export class HeaderComponent {
     if(user_id){
       this.http.get<any>(url).subscribe(res=>{
         this.data = res.data[0]
-        console.log(this.data );
+         console.log(this.data );
 
       },err=>{
         console.log(err);

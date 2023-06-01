@@ -1,0 +1,61 @@
+<div class="row justify-content-center p-3">
+  <div class="col-md-10">
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title fw-bolder text-center"> Information du projet : </h2> <span [class]="status == 'En cours' ? 'badge bg-success' : 'badge bg-warning'">{{status}}</span>
+        <img width="50%" [src]="'http://localhost:3500/images/'+imagePath" class="rounded">
+        <form >
+          <div class="row justify-content-around mt-4">
+            <div class="col-md-10">
+              <div class="form-group my-2">
+                <label for="titre" class="fw-bold mb-2">Titre : </label>
+                <input disabled [(ngModel)]="titre" name= "titre" type="text" class="form-control" id="titre">
+              </div>
+              <div class="form-group my-2">
+                <label for="description" class="fw-bold mb-2">Description : </label>
+                <textarea disabled type="text" class="form-control" id="description" [(ngModel)]="description"  name="description"></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="createdAt" class="fw-bold mb-2">Date de création : </label>
+                <input disabled value="{{createdAt | date : 'yyyy-MM-dd hh:mm'}}" name= "createdAt" type="text" class="form-control" id="createdAt" >
+              </div>
+              <div class="form-group my-2">
+                <label for="createdAt" class="fw-bold mb-2">compétence acquis: </label>
+                <ol *ngFor="let com of competencesAcquis" class="list-group list-group-numbered">
+                  <li class="list-group-item">{{com}}</li>
+                </ol>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group my-2">
+                <label for="etudiantInscrit" class="fw-bold mb-2">Nombre des étudiants inscrits : </label>
+                <input disabled [(ngModel)]="etudiantInscrit"  name= "etudiantInscrit" type="text" class="form-control" id="etudiantInscrit" >
+              </div>
+              <div class="form-group my-2">
+                <label for="createdAt" class="fw-bold mb-2">compétence requises: </label>
+                <ol *ngFor="let com of competencesRequis" class="list-group list-group-numbered">
+                  <li class="list-group-item">{{com}}</li>
+                </ol>
+              </div>
+
+            </div>
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="warning" type="submit" class="btn bg-warning mt-3 text-center btn" routerLink="/dashbord/projet">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back"></mat-icon>
+            <span>
+              Retour
+            </span>
+          </button>
+       </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="row justify-content-center p-3">
+  <div class="col-md-10">
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title fw-bolder text-center">Ajouter un projet</h2>
+        <form [formGroup]="addProjetForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+          <div class="row justify-content-around mt-4">
+            <div class="col-md-10">
+              <div class="form-group my-2">
+                <label for="titre" class="fw-bold mb-2">Titre : </label>
+                <input formControlName="titre"  name= "titre" type="text" class="form-control" id="titre">
+                <div *ngIf="addProjetForm.controls['titre'].invalid && (addProjetForm.controls['titre'].dirty || addProjetForm.controls['titre'].touched)" class="mt-2">
+                  <div *ngIf="addProjetForm.controls['titre'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="description" class="fw-bold mb-2">Description : </label>
+                <textarea rows="8" formControlName="description"  name= "description" type="text" class="form-control" id="description" ></textarea>
+                <div *ngIf="addProjetForm.controls['description'].invalid && (addProjetForm.controls['description'].dirty || addProjetForm.controls['description'].touched)" class="mt-2">
+                  <div *ngIf="addProjetForm.controls['description'].errors?.['required']">
+                   <span class="text-danger">Ce champs est obligatoire</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-10">
+              <div class="form-group my-2">
+                <label for="email" class="fw-bold mb-2">Cométence acquis : </label>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="nouvelleCompetence" class="form-control" placeholder="Saisissez une compétence" aria-describedby="ajouter_competence">
+                  <button (click)="ajouterCompetence()" class="btn btn-outline-secondary" type="button" id="ajouter_competence">Ajouter</button>
+                </div>
+                <div *ngFor="let comp of competences">
+                  <span class="badge rounded-pill bg-success mb-1">
+                    {{comp}}
+                    <button type="button" class="btn-close" aria-label="Supprimer" (click)="deleteCompetence(comp)"></button>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <label for="email" class="fw-bold mb-2">Cométence requis : </label>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="nouvelleCompetenceRequis" class="form-control" placeholder="Saisissez une compétence" aria-describedby="ajouter_competence_requis">
+                  <button (click)="ajouterCompetenceRequis()" class="btn btn-outline-secondary" type="button" id="ajouter_competence_requis">Ajouter</button>
+                </div>
+                <div *ngFor="let comp of competencesRequis">
+                  <span class="badge rounded-pill bg-warning mb-1">
+                    {{comp}}
+                    <button type="button" class="btn-close"  (click)="deleteCompetenceRequis(comp)">X</button>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group my-2">
+                <div class="mb-3">
+                  <label for="image" class="fw-bold mb-2">Image : </label>
+                  <input formControlName="image" (change)="onFileSelected($event)" class="form-control" type="file" id="formFile" accept="image/*">
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="success" [disabled]="!addProjetForm.valid" type="submit" class="btn bg-success mt-3 text-center btn">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person_add"></mat-icon>
+            <span>
+              Ajouter
+            </span>
+          </button>
+       </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -161,3 +161,5 @@ module.exports.deleteEnseignant = async(req,res)=>{
     res.status(401).json({status : res.statusCode,error : error.message})
   }
 }
+
+

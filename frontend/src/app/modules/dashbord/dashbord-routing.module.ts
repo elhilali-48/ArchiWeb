@@ -9,6 +9,10 @@ import { GestionEtudiantComponent } from './components/administrateur/gestion-et
 import { AjouterEtudiantComponent } from './components/administrateur/ajouter-etudiant/ajouter-etudiant.component';
 import { AfficherEtudiantComponent } from './components/administrateur/afficher-etudiant/afficher-etudiant.component';
 import { ModifierEtudiantComponent } from './components/administrateur/modifier-etudiant/modifier-etudiant.component';
+import { GestionProjetComponent } from './components/enseignant/gestion-projet/gestion-projet.component';
+import { AjouterProjetComponent } from './components/enseignant/ajouter-projet/ajouter-projet.component';
+import { AfficherProjetComponent } from './components/enseignant/afficher-projet/afficher-projet.component';
+import { ListerProjetComponent } from './components/enseignant/lister-projet/lister-projet.component';
 
 
 const routes: Routes = [
@@ -47,7 +51,24 @@ const routes: Routes = [
       {
         path : 'modifier_etudiant/:id',
         component : ModifierEtudiantComponent
+      },
+      {
+        path : "projet",
+        component : GestionProjetComponent
+      },
+      {
+        path : "ajouter_projet",
+        component : AjouterProjetComponent
+      },
+      {
+        path : "afficher_projet/:id",
+        component : AfficherProjetComponent
+      },
+      {
+        path : "liste_projet",
+        component : ListerProjetComponent
       }
+
 
 
 

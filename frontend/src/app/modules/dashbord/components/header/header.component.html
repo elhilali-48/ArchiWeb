@@ -44,13 +44,13 @@
       <mat-icon class="icon-header">home</mat-icon>
       <span >Dashbord</span>
     </button>
-    <button mat-button class="menu-button">
-      <mat-icon class="icon-header">home</mat-icon>
-      <span >Projets</span>
+    <button mat-button class="menu-button" routerLink="projet">
+      <mat-icon class="icon-header">folder_shared</mat-icon>
+      <span >Mes projets</span>
     </button>
-    <button mat-button class="menu-button">
-      <mat-icon class="icon-header">home</mat-icon>
-      <span >Compétences</span>
+    <button mat-button class="menu-button" routerLink="liste_projet">
+      <mat-icon class="icon-header">assistant</mat-icon>
+      <span >Projets</span>
     </button>
   </div>
 
@@ -72,7 +72,9 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z5">
-      <router-outlet></router-outlet>
+      <div>
+          <router-outlet></router-outlet>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

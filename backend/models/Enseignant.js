@@ -22,6 +22,10 @@ const enseignantSchema = mongoose.Schema({
         type : Date,
         required : true,
     },
+    description : {
+        type : String,
+        default : "Enseignant d'informatique à l'université d'Amiens Picardie"
+    },
     sexe : {
         type : String,
         required : true,
@@ -31,6 +35,18 @@ const enseignantSchema = mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Users'
     },
+    projetsCrees : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Projet'
+        }
+    ],
+    projetsCrees : [
+        {
+            type : String,
+
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now

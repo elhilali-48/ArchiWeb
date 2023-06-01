@@ -15,6 +15,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule} from '@angular/material/divider';
 import { MatIconModule} from '@angular/material/icon';
+import {MatSliderModule} from '@angular/material/slider';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 import { DataTablesModule } from 'angular-datatables';
 import { AjouterEnseignantComponent } from './components/administrateur/ajouter-enseignant/ajouter-enseignant.component';
@@ -26,6 +29,11 @@ import { GestionEtudiantComponent } from './components/administrateur/gestion-et
 import { AjouterEtudiantComponent } from './components/administrateur/ajouter-etudiant/ajouter-etudiant.component';
 import { AfficherEtudiantComponent } from './components/administrateur/afficher-etudiant/afficher-etudiant.component';
 import { ModifierEtudiantComponent } from './components/administrateur/modifier-etudiant/modifier-etudiant.component';
+import { GestionProjetComponent } from './components/enseignant/gestion-projet/gestion-projet.component';
+import { AjouterProjetComponent } from './components/enseignant/ajouter-projet/ajouter-projet.component';
+import { AfficherProjetComponent } from './components/enseignant/afficher-projet/afficher-projet.component';
+import { ListerProjetComponent } from './components/enseignant/lister-projet/lister-projet.component';
+import { ModifierProjetComponent } from './components/enseignant/modifier-projet/modifier-projet.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +48,11 @@ import { ModifierEtudiantComponent } from './components/administrateur/modifier-
     AjouterEtudiantComponent,
     AfficherEtudiantComponent,
     ModifierEtudiantComponent,
+    GestionProjetComponent,
+    AjouterProjetComponent,
+    AfficherProjetComponent,
+    ListerProjetComponent,
+    ModifierProjetComponent,
 
   ],
   imports: [
@@ -55,7 +68,8 @@ import { ModifierEtudiantComponent } from './components/administrateur/modifier-
     MatSidenavModule,
     MatDividerModule,
     MatIconModule,
-
+    MatSliderModule,
+    MatPaginatorModule,
     // Datatable
     DataTablesModule
   ]

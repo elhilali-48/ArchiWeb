@@ -29,6 +29,22 @@ const etudiantSchema = mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Users'
     },
+    projetsInscrits : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Projet'
+    }],
+    competences : [
+        {
+            nom : {
+                type : String,
+                
+            },
+            niveau : {
+                type : Number
+            }
+
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now

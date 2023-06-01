@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="p-3">
+    <h2 class="mt-3 text-center fw-bolder">Liste des projets :</h2>
+    <input type="text" class="form-control" placeholder="Cherhcher un projet"  (keyup)="keyupSearch($event)" [(ngModel)]="search">
+  </div>
+  <div class="row">
+
+    <div class="col-md-3 my-2" *ngFor="let projet of data.slice(pageIndex * cardsPerPage, (pageIndex + 1) * cardsPerPage)">
+      <!-- Card -->
+    <div class="card mb-3"  >
+
+      <!-- Card image -->
+      <div class="view overlay">
+        <img width="50px" height="200px" class="card-img-top"[src]="'http://localhost:3500/images/'+projet.imagePath" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).webp"
+          alt="Card image cap">
+          <span [class]="projet.status == 'En cours' ? 'badge bg-success' : 'badge bg-warning'">{{projet.status}}</span>
+        <a href="#!">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+
+      <!-- Card content -->
+      <div class="card-body">
+
+        <!-- Title -->
+        <h4 class="card-title fw-bolder">{{ projet.titre }}</h4>
+        <h5>Créer le : {{projet.createdAt | date :"YYYY-MM-dd"}}</h5>
+        <p class="text-muted">{{projet.enseignant_id.nom +" "+ projet.enseignant_id.prenom | uppercase}} <span *ngIf="projet.enseignant_id.user_id == id"><i class="bi bi-star"></i>
+        </span></p>
+
+        <!-- Text -->
+        <p class="card-text">{{projet.enseignant_id.description}}</p>
+        <!-- Button -->
+        <div class="text-center">
+          <a href="#" class="btn btn-primary btn-xs" (click)="afficherProjet(projet._id)">
+            Voir
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+    <mat-paginator [length]="totalCards"
+    [pageSize]="cardsPerPage"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25]"
+    (page)="handlePageEvent($event)">
+</mat-paginator>
+  </div>
+</div>

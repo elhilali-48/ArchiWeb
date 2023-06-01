@@ -8,6 +8,12 @@ const cors = require("cors")
 const passport = require("passport")
 const session = require("express-session")
 const LocalStrategy = require("passport-local").Strategy
+// ------------ Paramétre de l'image---------
+const multer = require('multer')
+const path = require('path');
+
+app.use('/images', express.static(path.join(__dirname, 'public/image/projet')));
+
 
 // Import Nodemailer
 
@@ -18,6 +24,7 @@ const routeAdmin = require('./routes/Utilisateur/Administrateur')
 const routeEnseignant = require('./routes/Utilisateur/Enseignant')
 const routeEtudiant = require('./routes/Utilisateur/Etudiant')
 const routeUser = require('./routes/Utilisateur/User')
+const routeProjet = require('./routes/Utilisateur/Projet')
 
 const control = require('./controllers/Utilisateur/User')
 // Accéder à la partie Front-end Angular :
@@ -51,6 +58,7 @@ app.use('/admin',routeAdmin)
 app.use('/enseignant',routeEnseignant)
 app.use('/etudiant',routeEtudiant)
 app.use('/user',routeUser)
+app.use('/projet',routeProjet)
 
 app.use(session({
     secret: "secret",
