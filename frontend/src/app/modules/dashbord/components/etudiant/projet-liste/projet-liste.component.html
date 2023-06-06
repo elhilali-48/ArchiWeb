@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="text-center m-4">
+      <h2 class="fw-bolder animate__animated animate__fadeInDownBig">Cours à la Une</h2>
+    </div>
+    <div class="col-md-4" *ngFor="let projet of data">
+      <div class="card animate__animated animate__fadeInUpBig mb-5 border rounded-4 border-4 shadow-lg bg-body">
+        <img class="card-img-top" height="240px" [src]="'http://localhost:3500/images/'+projet.imagePath"  alt="">
+        <div class="card-body">
+          <h3 class="card-title fw-bolder ">{{projet.titre}}</h3>
+          <p class="card-text">
+            <i class="fa fa-university" aria-hidden="true"></i>
+            {{projet.enseignant_id.nom + " " + projet.enseignant_id.prenom | uppercase}}
+          </p>
+          <div>
+            <span [class]="projet.status == 'En cours' ? 'badge bg-success' : 'badge bg-warning' "><i class="fa fa-check-circle" aria-hidden="true"></i> {{projet.status}}</span>
+          </div>
+        </div>
+        <button class="btn" (click)="afficherProjet(projet._id)">Go somewhere</button>
+
+        <div class="card-footer bg-light p-3">
+
+          <span class="d-flex inline"> <i class="fa fa-calendar px-1" aria-hidden="true"></i> Créé le : {{projet.createdAt | date: 'dd/MM/YYYY'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

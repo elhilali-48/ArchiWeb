@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row d-flex justify-content-center py-3">
+    <div class="text-center">
+      <h1 class="fw-bolder fs-2">Mes projets</h1>
+      <hr/>
+    </div>
+    <div class="col-md-10 mt-3">
+      <div class="table-responsive text-center">
+        <table class="table align-middle mb-0 bg-white table-bordered">
+          <thead class="bg-light">
+            <tr>
+              <th>Projet</th>
+              <th>Inscription</th>
+              <th>Status</th>
+              <th>Progression</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr class="" *ngFor="let projet of data" >
+                <td scope="row" class="nav-link"><a class="link" (click)="gereProjet(projet._id)">{{projet.titre}}</a></td>
+                <td>{{projet.resultatsEtudiants.inscriptionDate | date : 'dd/MM/YYYY'}}</td>
+                <td>
+                  <span class="badge bg-success rounded-pill d-inline">{{projet.resultatsEtudiants.status}}</span>
+                </td>
+                <td>Item</td>
+              </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

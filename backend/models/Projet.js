@@ -46,10 +46,26 @@ const projetschema = mongoose.Schema({
                     nom: String,
                     etat: {
                         type: String,
-                        enum: ['Non acquise', 'En cours d\'acquisition', 'Acquise']
+                        enum: ['Non acquise', 'En cours d\'acquisition', 'Acquise'],
+                        default : 'Non acquise',
+                    },
+                    progression : {
+                        type : Number,
+                        default : 0,
+                        min : 0,
+                        max : 100,
+                        
                     }
                 }
-            ]
+            ],
+            status : {
+                type : String,
+                enum : ["En cours", "Terminé", "Abandonné"]
+            },
+            inscriptionDate :{
+                type: Date,
+                default: Date.now
+            }
         }
     ],
     status : {

@@ -17,6 +17,8 @@ import { MatDividerModule} from '@angular/material/divider';
 import { MatIconModule} from '@angular/material/icon';
 import {MatSliderModule} from '@angular/material/slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 
 import { DataTablesModule } from 'angular-datatables';
@@ -34,6 +36,15 @@ import { AjouterProjetComponent } from './components/enseignant/ajouter-projet/a
 import { AfficherProjetComponent } from './components/enseignant/afficher-projet/afficher-projet.component';
 import { ListerProjetComponent } from './components/enseignant/lister-projet/lister-projet.component';
 import { ModifierProjetComponent } from './components/enseignant/modifier-projet/modifier-projet.component';
+import { ProjetListeComponent } from './components/etudiant/projet-liste/projet-liste.component';
+import { ProjetDetailsComponent } from './components/etudiant/projet-details/projet-details.component';
+import { GetInfoUserService } from 'src/app/service/get-info-user.service';
+import { MesProjetsComponent } from './components/etudiant/mes-projets/mes-projets.component';
+import { GererProjetComponent } from './components/etudiant/gerer-projet/gerer-projet.component';
+
+// Service
+
+
 
 @NgModule({
   declarations: [
@@ -53,6 +64,10 @@ import { ModifierProjetComponent } from './components/enseignant/modifier-projet
     AfficherProjetComponent,
     ListerProjetComponent,
     ModifierProjetComponent,
+    ProjetListeComponent,
+    ProjetDetailsComponent,
+    MesProjetsComponent,
+    GererProjetComponent,
 
   ],
   imports: [
@@ -70,8 +85,12 @@ import { ModifierProjetComponent } from './components/enseignant/modifier-projet
     MatIconModule,
     MatSliderModule,
     MatPaginatorModule,
+    MatTabsModule,
     // Datatable
     DataTablesModule
+  ],
+  providers : [
+    GetInfoUserService
   ]
 })
 export class DashbordModule { }

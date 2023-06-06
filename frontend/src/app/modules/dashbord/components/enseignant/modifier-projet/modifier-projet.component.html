@@ -4,14 +4,16 @@
     <div class="card">
       <div class="card-body">
         <h2 class="card-title fw-bolder text-center">Modifier un projet</h2>
-        <form [formGroup]="addProjetForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <img width="30%" height="40%"  class="rounded-circle mx-auto d-block"[src]="'http://localhost:3500/images/'+imagePath" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).webp"
+        alt="Card image cap">
+        <form [formGroup]="updateProjetFrom" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
           <div class="row justify-content-around mt-4">
             <div class="col-md-10">
               <div class="form-group my-2">
                 <label for="titre" class="fw-bold mb-2">Titre : </label>
                 <input formControlName="titre"  name= "titre" type="text" class="form-control" id="titre">
-                <div *ngIf="addProjetForm.controls['titre'].invalid && (addProjetForm.controls['titre'].dirty || addProjetForm.controls['titre'].touched)" class="mt-2">
-                  <div *ngIf="addProjetForm.controls['titre'].errors?.['required']">
+                <div *ngIf="updateProjetFrom.controls['titre'].invalid && (updateProjetFrom.controls['titre'].dirty || updateProjetFrom.controls['titre'].touched)" class="mt-2">
+                  <div *ngIf="updateProjetFrom.controls['titre'].errors?.['required']">
                    <span class="text-danger">Ce champs est obligatoire</span>
                   </div>
                 </div>
@@ -19,8 +21,8 @@
               <div class="form-group my-2">
                 <label for="description" class="fw-bold mb-2">Description : </label>
                 <textarea rows="8" formControlName="description"  name= "description" type="text" class="form-control" id="description" ></textarea>
-                <div *ngIf="addProjetForm.controls['description'].invalid && (addProjetForm.controls['description'].dirty || addProjetForm.controls['description'].touched)" class="mt-2">
-                  <div *ngIf="addProjetForm.controls['description'].errors?.['required']">
+                <div *ngIf="updateProjetFrom.controls['description'].invalid && (updateProjetFrom.controls['description'].dirty || updateProjetFrom.controls['description'].touched)" class="mt-2">
+                  <div *ngIf="updateProjetFrom.controls['description'].errors?.['required']">
                    <span class="text-danger">Ce champs est obligatoire</span>
                   </div>
                 </div>
@@ -57,16 +59,17 @@
               <div class="form-group my-2">
                 <div class="mb-3">
                   <label for="image" class="fw-bold mb-2">Image : </label>
+
                   <input formControlName="image" (change)="onFileSelected($event)" class="form-control" type="file" id="formFile" accept="image/*">
                 </div>
               </div>
             </div>
         </div>
         <div class="text-center">
-          <button mat-raised-button color="success" [disabled]="!addProjetForm.valid" type="submit" class="btn bg-success mt-3 text-center btn">
+          <button mat-raised-button color="pink" [disabled]="!updateProjetFrom.valid" type="submit" class="btn bg-warning mt-3 text-center btn">
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person_add"></mat-icon>
             <span>
-              Ajouter
+              Modifier
             </span>
           </button>
        </div>

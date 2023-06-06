@@ -38,6 +38,7 @@ export class ModifierEtudiantComponent {
         this.data = res
         this.user = res.user_id
         this.email = res.user_id.email
+        
         this.updateEtudiantForm.setValue({
           nom : res.nom,
           prenom : res.prenom,

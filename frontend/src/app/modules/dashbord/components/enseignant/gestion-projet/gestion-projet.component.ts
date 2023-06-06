@@ -145,7 +145,7 @@ export class GestionProjetComponent implements OnInit {
     }
   }
   updateProjet(id :string){
-    this.router.navigate(['/dashbord/modifier_etudiant/'+id])
+    this.router.navigate(['/dashbord/modifier_projet/'+id])
   }
   afficherProjet(id :string){
     this.router.navigate([`/dashbord/afficher_projet/${id}`])

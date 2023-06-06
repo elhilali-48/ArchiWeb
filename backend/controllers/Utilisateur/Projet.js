@@ -1,4 +1,5 @@
 const Enseignant = require("../../models/Enseignant");
+const Etudiant = require("../../models/Etudiant")
 const bcrypt = require("bcrypt");
 const Projet = require("../../models/Projet");
 const jwt = require("jsonwebtoken");
@@ -241,3 +242,153 @@ module.exports.getOneProjets = async (req, res) => {
     res.status(500).json({ status: res.statusCode, error: error.message });
   }
 };
+
+
+// ---------------------------------------------- Modifier un projet ----------------------------------------
+
+module.exports.updateProjet = async(req,res)=>{
+  try {
+     // Chercher le projet 
+     const projet = await Projet.findById(req.params.id)
+    
+     if(projet){
+      projet.titre = req.body.titre
+      projet.description = req.body.description
+      projet.competence_acquis = req.body.competence_acquis
+      projet.competence_requis = req.body.competence_requis
+
+      const updateProjet = await projet.save();
+
+     res.json(updateProjet)
+    }else{
+      res.status(401).json({status: res.statusCode, error : "Aucun projet trouvé avec cet Id"})
+    }
+  } catch (error) {
+    res.status(500).json({status : res.stautsCode, error: error.message})
+  }
+}
+
+
+// ---------------------------- S'inscrire dans un projet ------------------------------------------
+
+module.exports.inscrire_projet = async(req,res)=>{
+  try {
+    // chercher l'étudiant 
+    const etudiant = await Etudiant.findOne({user_id : req.body.id_user});
+    if(etudiant){
+      // Chercher le projet 
+      const projet = await Projet.findById(req.body.id_projet);
+      if(projet){
+        // Ajouter l'id du projet dans la collection Etudiant 
+        etudiant.projetsInscrits.push(req.body.id_projet)
+        await etudiant.save()
+        // Vérifier si l'étudiant n'est pas dèjà inscrit dans le projet 
+        const resultatsEtudiant = projet.resultatsEtudiants.find((resultat) =>
+          resultat.etudiantId.toString() === etudiant._id.toString()
+        )
+        if(!resultatsEtudiant){
+                  // Ajouter l'étudiant dans le tableau resultatsEtudiants du projet
+        const nouvelElement = {
+          etudiantId: etudiant._id,
+          competencesAcquises: [],
+          status: "En cours"
+        };
+
+        // Ajouter les compétences acquises une par une
+        for (const competence of projet.competence_acquis) {
+          nouvelElement.competencesAcquises.push({
+            nom: competence,
+            etat: 'Non acquise',
+            progression: 0,
+          });
+        }
+        projet.resultatsEtudiants.push(nouvelElement)
+        await projet.save()
+        res.status(200).json({status : res.statusCode, message : "Vous etes bien inscrits dans ce projet"})
+        }else{
+          // Modifier le status En cours
+          resultatsEtudiant.status = "En cours"
+          await projet.save()
+          res.status(200).json({status : res.statusCode, message : "Vous allez reprendre votre projet "})
+          
+        }
+
+      }else{
+        res.status(404).json({status : res.statusCode, error : "Aucun Projet trouvé avec cet Id"})
+      }
+    }else{
+      res.status(404).json({status : res.statusCode, error : "Aucun Etudiant trouvé avec cet Id"})
+    }
+  } catch (error) {
+    res.status(500).json({status : res.statusCode, error : error.message})
+  }
+}
+
+
+// ----------------------------- Se désabonner d'un projet ----------------------------------
+
+module.exports.abandonner = async(req,res)=>{
+  try {
+    // Chercher l'id de l'étudiant 
+    const etudiant = await Etudiant.findOne({user_id :req.body.id_user});
+    if(etudiant){
+      // Chercher le projet 
+      const projet =  await Projet.findById(req.body.id_projet)
+      if(projet){
+        // Supprimer l'id du projet dans la table Etudiant 
+        etudiant.projetsInscrits.pull(req.body.id_projet);
+       
+
+        // Changer le status du projet dans la collection Projet 
+        const resultatsEtudiant = projet.resultatsEtudiants.find(
+          (resultat) => resultat.etudiantId.toString() === etudiant._id.toString()
+        ) 
+        if(resultatsEtudiant){
+          resultatsEtudiant.status = "Abandonné";
+          await projet.save()
+          await etudiant.save();
+
+          res.status(200).json({status : res.statusCode, message : "Vous avez abandonné ce projet "})
+
+        }else{
+          res.status(401).json({ status: res.statusCode, error: "Aucun résultat trouvé pour cet étudiant dans le projet" });
+        }
+      }else{
+        res.status(401).json({status : res.statusCode, error : "Aucun Projet trouvé avec cet ID"})
+      }
+    }else{
+      res.status(401).json({status : res.statusCode, error : "Aucun Etudiant trouvé avec cet ID"})
+    }
+  } catch (error) {
+    res.status(500).json({status : res.statusCode, error : error.message})
+  }
+}
+
+// --------------------------------- Récupérer la liste des projets ------------------------------------------------------
+
+module.exports.mesProjets = async(req,res)=>{
+  try {
+    // Chercher l'étudiant s'il existe 
+    const etudiant = await Etudiant.findOne({ user_id: req.params.id });
+  
+    if (etudiant) {
+      const projets = await Projet.aggregate([
+        { $unwind: '$resultatsEtudiants' },
+        { $match: { 'resultatsEtudiants.etudiantId': etudiant._id } },
+      ]);
+      
+      if (projets.length === 0) {
+        console.log('Aucun projet trouvé avec cet étudiant');
+      } else {
+        projets.forEach((projet) => {
+          console.log('Étudiant trouvé dans le projet', projet.titre);
+        });
+      }
+      res.status(200).json({status : res.statusCode,data : projets});
+    } else {
+      res.status(401).json({ status: res.statusCode, error: 'Aucun étudiant trouvé avec cet ID' });
+    }
+  } catch (error) {
+    res.status(500).json({ status: res.statusCode, error: error.message });
+  }
+}

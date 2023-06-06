@@ -11,11 +11,15 @@
   <!-- Etudiant -->
   <div *ngIf="data.role === 'Etudiant'">
     <button mat-button class="menu-button">
-      <mat-icon class="icon-header">Dashboard</mat-icon>
-      <span >Dashbord</span>
+      <mat-icon class="icon-header">dashboard</mat-icon>
+      <span >Dashboard</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="projet_liste">
       <mat-icon class="icon-header">home</mat-icon>
+      <span >projets</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="mes_projets">
+      <mat-icon class="icon-header">book</mat-icon>
       <span >Mes projets</span>
     </button>
   </div>

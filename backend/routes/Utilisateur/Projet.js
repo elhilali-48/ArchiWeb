@@ -21,5 +21,12 @@ router.get('/getMyProjets',projetControlleur.getMyProjets);
 
 router.put('/archiveProjet/:id',projetControlleur.archiveProjet);
 
+router.put('/updateProjet/:id',projetControlleur.updateProjet)
+
+router.post('/inscrireProjet',projetControlleur.inscrire_projet)
+
+router.post('/abandonnerProjet',projetControlleur.abandonner)
+
+router.get('/mes_projets/:id',projetControlleur.mesProjets)
 
 module.exports = router

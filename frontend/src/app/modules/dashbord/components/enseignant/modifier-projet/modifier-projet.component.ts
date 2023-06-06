@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import {
   FormGroup,
@@ -22,17 +22,20 @@ export class ModifierProjetComponent {
   titre: string = '';
   description: string = '';
   selectedFile: File | null = null;
+  imagePath : string= "";
+  id :string ="";
 
 
-  addProjetForm: FormGroup;
+  updateProjetFrom: FormGroup;
 
   constructor(
-    private router: Router,
+    private router: ActivatedRoute,
+    private route : Router,
     private http: HttpClient,
     private fb: FormBuilder,
     private cookieService: CookieService
   ) {
-    this.addProjetForm = new FormGroup({
+    this.updateProjetFrom = new FormGroup({
       titre: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
@@ -46,30 +49,61 @@ export class ModifierProjetComponent {
       image: new FormControl('', []),
     });
   }
+  ngOnInit(){
+    // Récupérer tous les infos du projet
+    this.router.params.subscribe(params => {
+      const url = `http://localhost:3500/projet/getOneProjet/${params['id']}`
+      this.http.get<any>(url).subscribe(res=>{
+
+        this.id = params['id']
+        this.competences = res.projet.competence_acquis
+        this.competencesRequis = res.projet.competence_requis
+        this.imagePath = res.projet.imagePath
+
+        this.updateProjetFrom.setValue({
+          titre : res.projet.titre,
+          description :res.projet.description,
+          nouvelleCompetence : res.projet.competence_acquis,
+          nouvelleCompetenceRequis : res.projet.competence_requis,
+          image : ""
+        })
+
+      },err=>{
+        // Error
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.error.message,
+        })
+      })
+    })
+
+  }
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile)
   }
   ajouterCompetence() {
     console.log(this.competences);
-    console.log(this.addProjetForm.get('nouvelleCompetence')?.value);
-    if (this.addProjetForm.get('nouvelleCompetence')?.value.trim() !== '') {
+    console.log(this.updateProjetFrom.get('nouvelleCompetence')?.value);
+    if (this.updateProjetFrom.get('nouvelleCompetence')?.value.trim() !== '') {
       this.competences.push(
-        this.addProjetForm.get('nouvelleCompetence')?.value
+        this.updateProjetFrom.get('nouvelleCompetence')?.value
       );
-      this.addProjetForm.get('nouvelleCompetence')?.setValue('');
+      this.updateProjetFrom.get('nouvelleCompetence')?.setValue('');
     }
   }
   ajouterCompetenceRequis() {
     console.log(this.competencesRequis);
-    console.log(this.addProjetForm.get('nouvelleCompetenceRequis')?.value);
+    console.log(this.updateProjetFrom.get('nouvelleCompetenceRequis')?.value);
     if (
-      this.addProjetForm.get('nouvelleCompetenceRequis')?.value.trim() !== ''
+      this.updateProjetFrom.get('nouvelleCompetenceRequis')?.value.trim() !== ''
     ) {
       this.competencesRequis.push(
-        this.addProjetForm.get('nouvelleCompetenceRequis')?.value
+        this.updateProjetFrom.get('nouvelleCompetenceRequis')?.value
       );
-      this.addProjetForm.get('nouvelleCompetenceRequis')?.setValue('');
+      this.updateProjetFrom.get('nouvelleCompetenceRequis')?.setValue('');
     }
   }
   deleteCompetence(comp: any) {
@@ -85,28 +119,34 @@ export class ModifierProjetComponent {
     }
   }
   onSubmit() {
-    // Récupérer l'id
-    const id = this.cookieService.get('userId');
-    if (this.addProjetForm.valid) {
-      const url = 'http://localhost:3500/projet/create';
-      const formData = new FormData();
-      formData.append('titre', this.addProjetForm.get('titre')?.value);
-      formData.append('description', this.addProjetForm.get('description')?.value);
-      formData.append('enseignant_id', id);
-      formData.append('competence_acquis', JSON.stringify(this.competences));
-      formData.append('competence_requis', JSON.stringify(this.competencesRequis));
-      formData.append('status', 'En cours');
-      if (this.selectedFile) {
-        formData.append('image', this.selectedFile, this.selectedFile.name);
+
+    if (this.updateProjetFrom.valid) {
+      const url = 'http://localhost:3500/projet/updateProjet/'+this.id;
+      const data = {
+        titre : this.updateProjetFrom.get('titre')?.value,
+        description : this.updateProjetFrom.get('description')?.value,
+        competence_acquis : (this.competences),
+        competence_requis : (this.competencesRequis),
+        image : this.selectedFile
       }
-      this.http.post<any>(url, formData).subscribe(
+      // const formData = new FormData();
+      // formData.append('titre', "dsqd");
+      // formData.append('description', this.updateProjetFrom.get('description')?.value);
+      // formData.append('competence_acquis', JSON.stringify(this.competences));
+      // formData.append('competence_requis', JSON.stringify(this.competencesRequis));
+      // if (this.selectedFile) {
+      //   formData.set('image', this.selectedFile, this.selectedFile.name);
+      // }
+
+
+      this.http.put<any>(url, data).subscribe(
         (res) => {
           console.log(res);
-
-          Swal.fire('Projet bien ajouté!', '', 'success');
-          this.router.navigate(['/dashbord/projet']);
+          Swal.fire('Projet bien modifié!', '', 'success');
+           this.route.navigate(['/dashbord/projet']);
         },
         (err) => {
+          console.log(err)
           //Error
           Swal.fire({
             icon: 'error',

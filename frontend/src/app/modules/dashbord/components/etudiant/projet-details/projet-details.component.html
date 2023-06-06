@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row d-flex justify-content-center p-5">
+    <div class="col-md-7 animate__animated animate__backInLeft">
+      <h1 class="fw-bolder fs-2">{{titre}}</h1>
+      <!-- <p class="text-muted">Ref : {{data._id}}</p> -->
+      <div class="my-2">
+        <span [class]="data.satuts == 'En cours' ? 'badge bg-success' : 'badge bg-warning' ">
+          {{data.status}}
+        </span>
+      </div>
+      <img class="rounded-4" width="80%" src="https://images.unsplash.com/photo-1682686581427-7c80ab60e3f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="">
+    </div>
+    <div class="col-md-4 animate__animated animate__backInRight">
+      <div class="text-center mb-3">
+        <img width="40%" height="40%" class="rounded-5" src="https://img.freepik.com/icones-gratuites/utilisateur_318-159711.jpg">
+      </div>
+      <label class="fw-bolder h5">Professeur : </label>
+      <h4>{{data.enseignant_id.nom + " " + data.enseignant_id.prenom |uppercase}}</h4>
+      <label class="fw-bolder h5">Description : </label>
+      <p>{{data.enseignant_id.description}}</p>
+      <label class="fw-bolder h5">Date de création : </label>
+      <p><i class="fa fa-clock-o" aria-hidden="true"></i>
+       {{data.createdAt |date : "dd/MM/YYYY"}}
+      </p>
+      <label class="fw-bolder h5">Langues : </label>
+      <p>
+       Français
+      </p>
+    </div>
+    <hr class="mt-4" size="50" width="200">
+    <div class="col-md-10">
+      <div>
+        <h2 class="fw-bolder fs-2">Ce que vous allez apprendre</h2>
+        <hr/>
+        <p class="fs-5 my-3">à la fin de ce projet, vous saurez : </p>
+        <ul class="fa-ul list-group list-group-flush gap-4 h6" *ngFor="let compAcquis of data.competence_acquis">
+          <li class="my-2"><span class="fa-li"><i class="fa-solid fa-check-square"></i></span>{{compAcquis}}</li>
+        </ul>
+      </div>
+      <div class="mt-4">
+        <h2 class="fw-bolder fs-2">Description</h2>
+        <hr/>
+        <p class="my-3 gap-2">{{data.description}} </p>
+
+      </div>
+      <div class="mt-4">
+        <h2 class="fw-bolder fs-2">Prérequis</h2>
+        <hr/>
+        <div *ngIf="data.competence_requis.length > 0;else templateName">
+          <ul class="fa-ul list-group list-group-flush gap-4 h6" *ngFor="let compRequis of data.competence_requis">
+            <li class="my-2"><span class="fa-li"><i class="fa-solid fa-check-square"></i></span>{{compRequis}}</li>
+          </ul>
+        </div>
+        <ng-template #templateName>
+          <p class="my-3 gap-2" >
+            Ce cours s’adresse à tout public, sans prérequis particulier. Il est accessible à tous, aussi bien aux novices qu’aux passionnés de biologie.
+          </p>
+        </ng-template>
+      </div>
+      <div class="mt-5 text-center">
+        <div *ngIf="data_etudiant.projetsInscrits.includes(data._id);else ajouter" >
+          <button (click)="abandonner(data._id)" class="btn btn-danger btn-lg"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            Ne plus suivre </button>
+        </div>
+        <ng-template #ajouter>
+          <button   *ngIf="data.status == 'En cours'" class="btn btn-success btn-lg" (click)="inscrire(data._id)"><i class="fa fa-rocket" aria-hidden="true"></i>
+            Commencer</button>
+        </ng-template>
+
+        <button disabled *ngIf="data.status != 'En cours'" class="btn btn-warning btn-lg"><i class="fa fa-lock" aria-hidden="true"></i>
+          Archivé</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,11 @@ import { GestionProjetComponent } from './components/enseignant/gestion-projet/g
 import { AjouterProjetComponent } from './components/enseignant/ajouter-projet/ajouter-projet.component';
 import { AfficherProjetComponent } from './components/enseignant/afficher-projet/afficher-projet.component';
 import { ListerProjetComponent } from './components/enseignant/lister-projet/lister-projet.component';
+import { ModifierProjetComponent } from './components/enseignant/modifier-projet/modifier-projet.component';
+import { ProjetListeComponent } from './components/etudiant/projet-liste/projet-liste.component';
+import { ProjetDetailsComponent } from './components/etudiant/projet-details/projet-details.component';
+import { MesProjetsComponent } from './components/etudiant/mes-projets/mes-projets.component';
+import { GererProjetComponent } from './components/etudiant/gerer-projet/gerer-projet.component';
 
 
 const routes: Routes = [
@@ -20,6 +25,7 @@ const routes: Routes = [
     path : '',
     component : HomeComponent,
     children : [
+      // Route pour Administrateur
       {
         path : 'enseignant',
         component : GestionEnseignantComponent
@@ -52,6 +58,8 @@ const routes: Routes = [
         path : 'modifier_etudiant/:id',
         component : ModifierEtudiantComponent
       },
+
+      // Route pour Enseignant
       {
         path : "projet",
         component : GestionProjetComponent
@@ -67,9 +75,28 @@ const routes: Routes = [
       {
         path : "liste_projet",
         component : ListerProjetComponent
+      },
+      {
+        path : "modifier_projet/:id",
+        component : ModifierProjetComponent
+      },
+      //  Route pour Etudiant
+      {
+        path : "projet_liste",
+        component : ProjetListeComponent
+      },
+      {
+        path : "projet_details/:id",
+        component : ProjetDetailsComponent
+      },
+      {
+        path : "mes_projets",
+        component : MesProjetsComponent
+      },
+      {
+        path : "gerer_projet/:id",
+        component : GererProjetComponent
       }
-
-
 
 
     ]

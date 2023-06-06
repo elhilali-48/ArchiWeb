@@ -11,7 +11,7 @@
 
       <!-- Card image -->
       <div class="view overlay">
-        <img width="50px" height="200px" class="card-img-top"[src]="'http://localhost:3500/images/'+projet.imagePath" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).webp"
+        <img width="50px" height="200px" class="card-img-top" [src]="'http://localhost:3500/images/'+projet.imagePath" 
           alt="Card image cap">
           <span [class]="projet.status == 'En cours' ? 'badge bg-success' : 'badge bg-warning'">{{projet.status}}</span>
         <a href="#!">
