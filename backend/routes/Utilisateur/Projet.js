@@ -29,4 +29,10 @@ router.post('/abandonnerProjet',projetControlleur.abandonner)
 
 router.get('/mes_projets/:id',projetControlleur.mesProjets)
 
+router.get('/getInfoEtudiantProjet/:id_projet/:id_user',projetControlleur.getInfoEtudiantProjet)
+
+router.post('/changerStatus',projetControlleur.changerStatus)
+
+router.post('/cloturerProjet',projetControlleur.cloturerProjet)
+
 module.exports = router

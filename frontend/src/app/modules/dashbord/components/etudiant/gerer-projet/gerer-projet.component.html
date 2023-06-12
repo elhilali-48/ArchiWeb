@@ -3,9 +3,9 @@
     <div class="col-md-12" style="background-color: #EBF5F6;">
       <div class="row d-felx justify-content-around">
         <div class="col-md-6">
-          <button class="btn btn-warning my-5"><i class="bi bi-caret-left-square-fill"></i>
+          <button routerLink="/dashbord/mes_projets" class="btn btn-warning my-5"><i class="bi bi-caret-left-square-fill"></i>
             Retour</button>
-          <h1 class="fs-2 fw-bolder mx-3">Apprendre à programmer avec JAVA</h1>
+          <h1 class="fs-2 fw-bolder mx-3">{{data.titre}}</h1>
           <button class="btn btn-outline-danger my-5"><i class="bi bi-x-octagon"></i>
             Ne plus suivre</button>
         </div>
@@ -17,14 +17,14 @@
               <h2 class="fw-bolder">
                 <span class="mx-2"><i class="fa fa-spinner" aria-hidden="true" style="color: #2E7E32;"></i>
                 </span>
-                90%
+                {{resultProgrssion}}%
               </h2>
               <hr>
               <h3 class="card-title">OBJECTIFS PÉDAGOGIQUES</h3>
               <h2 class="fw-bolder">
                 <span class="mx-2"><i class="bi bi-lightbulb" style="color: #2E7E32;"></i>
                 </span>
-                1/3</h2>
+                1/{{data.competence_acquis.length}}</h2>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
           </div>
           <div class="row d-felx justify-content-around">
             <div class="col-md-8 d-grid gap-3">
-              <p class="fs-5 d-grid">Une compréhension élémentaire du Web et une expérience avec un terminal. Vous pouvez les acquérir en suivant les cours suivants :              </p>
+              <p class="fs-5 d-grid">{{data.description}}</p>
             </div>
             <div class="col-md-3">
               <img src="https://openclassrooms.com/modules/learning-content/latest/images/learningOutcomes-5cbadb8c7bf34b14a61e.svg" alt="">
@@ -58,10 +58,10 @@
               <img src="https://openclassrooms.com/modules/learning-content/latest/images/requirements-136442472f42313d52d9.svg" alt="">
             </div>
             <div class="col-md-5 d-grid gap-3">
-              <ul class="list-group list-group-flush">
+              <ul class="list-group list-group-flush" *ngFor="let item of data.competence_requis">
                 <li class="list-group list-group-flush fs-5 fw-bolder">
                  <span><i class="bi bi-lamp"></i>
-                  An item</span>
+                 {{item}}</span>
                 </li>
               </ul>
             </div>
@@ -76,35 +76,30 @@
                     <th scope="col">Ordre</th>
                     <th scope="col">Compétence</th>
                     <th scope="col">Progression</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
-                <tbody >
+                <tbody  *ngFor="let comp of data.resultatsEtudiants.competencesAcquises">
                   <tr>
-                    <th scope="row">1</th>
-                    <td>HTML</td>
+                    <th scope="row">{{comp.index}}</th>
+                    <td>{{comp.nom}}</td>
                     <td>
-                      <input type="range" class="form-control-range" value="10" min="0" max="100">
+                      <input type="range"  [value]="comp.progression" class="form-control-range" (change)="onChangeProgression($event, comp._id)" value="10" min="0" max="100">
                     </td>
-                    <td>
-                      <button class="btn badge bg-danger mx-1">Non acquise</button>
-                      <button class="btn badge bg-primary mx-1">En cours</button>
-                      <button class="btn badge bg-success mx-1">Acquise</button>
+                    <td>{{comp.etat}}</td>
+                    <td disabled>
+                      <button class="btn badge bg-danger mx-1" (click)="changeStatus(comp._id,'Non acquise')" *ngIf="comp.etat != 'Non acquise'">Non acquise</button>
+                      <button class="btn badge bg-primary mx-1" (click)="changeStatus(comp._id,'En cours')" *ngIf="comp.etat != 'En cours d\'acquisition'">En cours</button>
+                      <button class="btn badge bg-success mx-1" (click)="changeStatus(comp._id,'Acquise')" *ngIf="comp.etat != 'Acquise'">Acquise</button>
                     </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
                   </tr>
                 </tbody>
               </table>
+              <div class="text-center">
+                <button (click)="terminerProjet()" class="btn btn-success mx-1" *ngIf="allCompetencesAcquises">Terminer le projet</button>
+              </div>
+
             </div>
           </div>
         </mat-tab>
@@ -116,8 +111,8 @@
               <img src="https://user.oc-static.com/users/avatars/1625873440387_peb-oc.jpeg" class="rounded-pill" alt="">
             </div>
             <div class="col-md-8">
-              <h3 class="fw-bolder">ANNE Lapujadde</h3>
-              <p>Diplômé de l'EDHEC Business School, Paul-Emile est ingénieur chez MongoDB, leader dans les technologies de bases de données NoSQL.
+              <h3 class="fw-bolder">{{data.enseignant[0].nom +" "+ data.enseignant[0].prenom |uppercase }}</h3>
+              <p> Enseignant à l'université de jules vernes Picardie
               </p>
             </div>
           </div>
