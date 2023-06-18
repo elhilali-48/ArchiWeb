@@ -35,4 +35,6 @@ router.post('/changerStatus',projetControlleur.changerStatus)
 
 router.post('/cloturerProjet',projetControlleur.cloturerProjet)
 
+router.post('/afficherResultsEtudiant',projetControlleur.afficherResultsEtudiant)
+
 module.exports = router

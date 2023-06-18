@@ -20,7 +20,10 @@
           <tr *ngFor="let projet of projets">
             <td>{{projet.titre}}</td>
             <td>{{projet.enseignant_id.nom}}</td>
-            <td>{{projet.resultatsEtudiants.length}}</td>
+            <td>{{projet.resultatsEtudiants.length}}
+              <span (click)="afficherEtudiant(projet._id)" *ngIf="projet.resultatsEtudiants.length > 0"><i class="bi bi-eye-fill text-success"></i>
+              </span>
+            </td>
             <td>{{projet.status}}</td>
             <td>{{projet.createdAt | date}}</td>
             <td>

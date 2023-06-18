@@ -18,6 +18,8 @@ import { ProjetListeComponent } from './components/etudiant/projet-liste/projet-
 import { ProjetDetailsComponent } from './components/etudiant/projet-details/projet-details.component';
 import { MesProjetsComponent } from './components/etudiant/mes-projets/mes-projets.component';
 import { GererProjetComponent } from './components/etudiant/gerer-projet/gerer-projet.component';
+import { ProjetResultatsComponent } from './components/enseignant/projet-resultats/projet-resultats.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 const routes: Routes = [
@@ -80,6 +82,10 @@ const routes: Routes = [
         path : "modifier_projet/:id",
         component : ModifierProjetComponent
       },
+      {
+        path: "resultat_projet/:id",
+        component : ProjetResultatsComponent
+      },
       //  Route pour Etudiant
       {
         path : "projet_liste",
@@ -96,6 +102,14 @@ const routes: Routes = [
       {
         path : "gerer_projet/:id",
         component : GererProjetComponent
+      },
+
+
+
+      // Route pour tous les utilisateurs
+      {
+        path : 'profile',
+        component : ProfileComponent
       }
 
 

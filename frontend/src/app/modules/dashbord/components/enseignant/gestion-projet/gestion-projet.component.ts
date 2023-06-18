@@ -150,4 +150,10 @@ export class GestionProjetComponent implements OnInit {
   afficherProjet(id :string){
     this.router.navigate([`/dashbord/afficher_projet/${id}`])
   }
+  // Afficher tous les etudiants et les résultats
+  afficherEtudiant(id:string){
+    // Dirigé vers la page des résultats
+    this.router.navigate([`/dashbord/resultat_projet/${id}`])
+
+  }
 }

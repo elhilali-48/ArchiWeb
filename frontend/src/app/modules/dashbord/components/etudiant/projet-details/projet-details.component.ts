@@ -59,11 +59,18 @@ export class ProjetDetailsComponent {
     // Post
     this.http.post<any>(url, data).subscribe(
       (res) => {
-        console.log(res);
+        if(res.status == 202){
+          Swal.fire(
+            'Prérequis?',
+            'Avez-vous tous les prérequies pour commencer ce projet ?',
+            'question'
+          )
+        }else{
 
-         Swal.fire('Vous etes bien inscrit à ce projet!', '', 'success');
-         window.location.reload();
-         //this.router.navigate(['/dashbord/mes_projets']);
+            Swal.fire('Vous etes bien inscrit à ce projet!', '', 'success');
+            window.location.reload();
+            this.router.navigate(['/dashbord/mes_projets']);
+        }
       },
       (err) => {
         //Error

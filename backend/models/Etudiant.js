@@ -38,11 +38,7 @@ const etudiantSchema = mongoose.Schema({
             nom : {
                 type : String,
                 
-            },
-            niveau : {
-                type : Number
             }
-
         }
     ],
     createdAt: {

@@ -41,6 +41,8 @@ import { ProjetDetailsComponent } from './components/etudiant/projet-details/pro
 import { GetInfoUserService } from 'src/app/service/get-info-user.service';
 import { MesProjetsComponent } from './components/etudiant/mes-projets/mes-projets.component';
 import { GererProjetComponent } from './components/etudiant/gerer-projet/gerer-projet.component';
+import { ProjetResultatsComponent } from './components/enseignant/projet-resultats/projet-resultats.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 // Service
 
@@ -68,6 +70,8 @@ import { GererProjetComponent } from './components/etudiant/gerer-projet/gerer-p
     ProjetDetailsComponent,
     MesProjetsComponent,
     GererProjetComponent,
+    ProjetResultatsComponent,
+    ProfileComponent,
 
   ],
   imports: [

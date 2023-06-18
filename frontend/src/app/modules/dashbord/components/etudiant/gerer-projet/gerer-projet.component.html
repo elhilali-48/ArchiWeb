@@ -2,11 +2,14 @@
   <div class="row d-felx justify-content-center">
     <div class="col-md-12" style="background-color: #EBF5F6;">
       <div class="row d-felx justify-content-around">
+        <div class="text-center animate__animated  animate__bounceInRight" *ngIf="data.resultatsEtudiants.status == 'Terminé'">
+          <h3 class="fs-2 my-3 fw-bolder text-center text-success">Vous avez déjà terminé ce projet !! </h3>
+        </div>
         <div class="col-md-6">
           <button routerLink="/dashbord/mes_projets" class="btn btn-warning my-5"><i class="bi bi-caret-left-square-fill"></i>
             Retour</button>
           <h1 class="fs-2 fw-bolder mx-3">{{data.titre}}</h1>
-          <button class="btn btn-outline-danger my-5"><i class="bi bi-x-octagon"></i>
+          <button *ngIf="data.resultatsEtudiants.status != 'Terminé'" class="btn btn-outline-danger my-5"><i class="bi bi-x-octagon"></i>
             Ne plus suivre</button>
         </div>
         <div class="col-md-5">
@@ -80,23 +83,25 @@
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
-                <tbody  *ngFor="let comp of data.resultatsEtudiants.competencesAcquises">
+                <tbody *ngFor="let comp of data.resultatsEtudiants.competencesAcquises; let i = index">
                   <tr>
                     <th scope="row">{{comp.index}}</th>
                     <td>{{comp.nom}}</td>
                     <td>
-                      <input type="range"  [value]="comp.progression" class="form-control-range" (change)="onChangeProgression($event, comp._id)" value="10" min="0" max="100">
+                      <input type="range" [disabled]="data.resultatsEtudiants.status == 'Terminé'" [value]="comp.progression" class="form-control-range" (change)="onChangeProgression($event, comp._id)" min="0" max="100">
                     </td>
                     <td>{{comp.etat}}</td>
-                    <td disabled>
-                      <button class="btn badge bg-danger mx-1" (click)="changeStatus(comp._id,'Non acquise')" *ngIf="comp.etat != 'Non acquise'">Non acquise</button>
-                      <button class="btn badge bg-primary mx-1" (click)="changeStatus(comp._id,'En cours')" *ngIf="comp.etat != 'En cours d\'acquisition'">En cours</button>
-                      <button class="btn badge bg-success mx-1" (click)="changeStatus(comp._id,'Acquise')" *ngIf="comp.etat != 'Acquise'">Acquise</button>
+                    <td>
+                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé'" class="btn badge bg-danger mx-1" (click)="changeStatus(comp._id,'Non acquise')" *ngIf="comp.etat != 'Non acquise'">Non acquise</button>
+                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé'" class="btn badge bg-primary mx-1" (click)="changeStatus(comp._id,'En cours')" *ngIf="comp.etat != 'En cours d\'acquisition'">En cours</button>
+                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé'" class="btn badge bg-success mx-1" (click)="changeStatus(comp._id,'Acquise')" *ngIf="comp.etat != 'Acquise'">Acquise</button>
                     </td>
                   </tr>
                 </tbody>
+
+
               </table>
-              <div class="text-center">
+              <div class="text-center" *ngIf="data.resultatsEtudiants.status != 'Terminé'">
                 <button (click)="terminerProjet()" class="btn btn-success mx-1" *ngIf="allCompetencesAcquises">Terminer le projet</button>
               </div>
 

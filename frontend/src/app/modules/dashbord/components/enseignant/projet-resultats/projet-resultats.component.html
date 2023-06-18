@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row d-flex justify-content-center py-3">
+    <div class="text-center">
+      <h1 class="fw-bolder fs-2 text-primary">Résultats du projet : {{data.titre}}</h1>
+      <hr/>
+    </div>
+    <div class="col-md-10 mt-3">
+      <div class="table-responsive text-center">
+        <table class="table align-middle mb-0 bg-white table-bordered">
+          <thead class="bg-light">
+            <tr>
+              <th>Etudiant</th>
+              <th>Date d'inscription</th>
+              <th>Status</th>
+              <th>Progression</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr class="" *ngFor="let etudiant of data.resultatsEtudiants" >
+                <td scope="row" class="">{{etudiant.etudiantId.nom +" "+ etudiant.etudiantId.prenom }}</td>
+                <td class="align-items-center">{{etudiant.inscriptionDate | date : 'dd/MM/YYYY'}}</td>
+                <td>
+                  <span :class="etudiant.status == 'Terminé' ? 'badge bg-success' : '  badge bg-primary rounded-pill d-inline'">{{etudiant.status}}</span>
+                </td>
+                <td >
+                  <ul class="list-group " *ngFor="let progrss of etudiant.competencesAcquises">
+                    <li [class]="'list-group-item my-1 ' + (progrss.progression == 100 ? 'bg-success' : 'bg-warning')">
+                      {{ progrss.nom }} : {{ progrss.progression }}%
+                    </li>                  </ul>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

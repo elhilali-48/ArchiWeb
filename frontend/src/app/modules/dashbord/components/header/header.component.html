@@ -37,10 +37,10 @@
       <mat-icon class="icon-header">person_add</mat-icon>
       <span >Etudiants</span>
     </button>
-    <button mat-button class="menu-button" routerLink="etudiant" *ngIf="data.info[0].isSuperAdmin">
+    <!-- <button mat-button class="menu-button" routerLink="etudiant" *ngIf="data.info[0].isSuperAdmin">
       <mat-icon class="icon-header">person_add</mat-icon>
       <span >Administrateurs</span>
-    </button>
+    </button> -->
   </div>
   <!-- Enseignats -->
   <div *ngIf="data.role === 'Enseignant'">
@@ -61,13 +61,9 @@
     <mat-divider>
 
     </mat-divider>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="profile">
       <mat-icon class="icon-header">folder_shared</mat-icon>
       <span>Profile</span>
-    </button>
-    <button mat-button class="menu-button">
-      <mat-icon class="icon-header">help</mat-icon>
-      <span>Help</span>
     </button>
     <button mat-button class="menu-button" (click)="logout()">
       <mat-icon class="icon-header">logout</mat-icon>

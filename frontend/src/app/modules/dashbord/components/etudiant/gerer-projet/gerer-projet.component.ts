@@ -16,7 +16,7 @@ export class GererProjetComponent {
   resultProgrssion : number;
   progress : number = 0;
   allCompetencesAcquises: boolean = true;
-
+  disableElements: boolean[] = [];
   constructor(private http : HttpClient, private router : Router, private cookie : CookieService, private routeActive : ActivatedRoute){}
 
   ngOnInit() {
@@ -34,6 +34,11 @@ export class GererProjetComponent {
             this.data = element
             this.allCompetencesAcquises = this.data.resultatsEtudiants.competencesAcquises.every((comp: any) => comp.progression === 100);
             this.progressionTotal = element.resultatsEtudiants.competencesAcquises
+            const resultatsEtudiants = element.resultatsEtudiants.competencesAcquises;
+            if (resultatsEtudiants.length > 0) {
+              const firstElementProgression = resultatsEtudiants[0].progression;
+              this.disableElements = resultatsEtudiants.map((comp : any) => comp.progression !== firstElementProgression);
+            }
             for (let i = 0; i < element.resultatsEtudiants.competencesAcquises.length; i++) {
               this.sommeProgressions += element.resultatsEtudiants.competencesAcquises[i].progression;
             }
@@ -104,21 +109,21 @@ export class GererProjetComponent {
   terminerProjet(){
     const id_user = this.cookie.get("userId");
     const id_projet = this.routeActive.snapshot.paramMap.get("id") ?? '';
-    alert(id_user)
-    // const url = "http://localhost:3500/projet/cloturerProjet"
-    // const data = {
-    //   id_user : id_user,
-    //   id_projet : id_projet,
-    // }
-    // this.http.post<any>(url,data).subscribe(res=>{
-    //   console.log(res)
-    // },err=>{
-    //   //Error
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: err.error.error,
-    //   })
-    // })
+
+    const url = "http://localhost:3500/projet/cloturerProjet"
+    const data = {
+      id_user : id_user,
+      id_projet : id_projet,
+    }
+    this.http.post<any>(url,data).subscribe(res=>{
+      Swal.fire('Félicitation Vous avez terminé le projet', '', 'success')
+    },err=>{
+      //Error
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.error.error,
+      })
+    })
   }
 }

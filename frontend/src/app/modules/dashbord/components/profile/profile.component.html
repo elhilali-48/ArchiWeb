@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-12 my-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-around">
+            <div class="col-md-1">
+              <img class="rounded-circle" width="90px" src="https://images.unsplash.com/photo-1639149888905-fb39731f2e6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80" alt="">
+            </div>
+            <div class="col-md-10 mt-3">
+              <h5 class="card-title fw-bolder fs-3">{{data[0].info[0].nom +" "+ data[0].info[0].prenom}}</h5>
+              <hr/>
+              <div class="row">
+                <div class="col-md-5 fs-6">
+                  <span class="mx-1"><i class="bi bi-envelope-at"></i>
+                  </span>
+                  {{data[0].email}}
+                </div>
+                <div class="col-md-3 fs-6">
+                 <span class="mx-1"><i class="bi bi-calendar2-date"></i>
+                 </span> {{data[0].info[0].dateNaissance | date: 'dd/MM/YYYY'}}
+                </div>
+                <div class="col-md-3 fs-6">
+                  <span class="mx-1"><i class="bi bi-gender-ambiguous"></i>
+                  </span> {{data[0].info[0].sexe | uppercase}}
+                 </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-body">
+          <mat-tab-group>
+            <mat-tab label="Modifier Mes informations">
+                <form [formGroup]="updateProfileForm" (ngSubmit)="onSubmitInfo()">
+                  <div class="row d-felx justify-content-center p-3">
+                  <div class="col-md-5">
+                    <div class="form-group my-2">
+                      <label for="nom" class="fw-bold mb-2">Nom : </label>
+                      <input formControlName="nom"   name= "nom" type="text" class="form-control" id="nom">
+                      <div *ngIf="updateProfileForm.controls['nom'].invalid && (updateProfileForm.controls['nom'].dirty || updateProfileForm.controls['nom'].touched)" class="mt-2">
+                        <div *ngIf="updateProfileForm.controls['nom'].errors?.['required']">
+                         <span class="text-danger">Ce champs est obligatoire</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group my-2">
+                      <label for="prenom" class="fw-bold mb-2">Prènom : </label>
+                      <input formControlName="prenom" name= "prenom" type="text" class="form-control" id="nom">
+                      <div *ngIf="updateProfileForm.controls['prenom'].invalid && (updateProfileForm.controls['prenom'].dirty || updateProfileForm.controls['prenom'].touched)" class="mt-2">
+                        <div *ngIf="updateProfileForm.controls['prenom'].errors?.['required']">
+                         <span class="text-danger">Ce champs est obligatoire</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group my-2">
+                      <label for="sexe" class="fw-bold mb-2">Sexe : </label>
+                      <select formControlName="sexe" name="sexe" class="form-control" id="sexe">
+                        <option value="">Choisissez un sexe</option>
+                        <option value="homme">Homme</option>
+                        <option value="femme">Femme</option>
+                      </select>
+                      <div *ngIf="updateProfileForm.controls['sexe'].invalid && (updateProfileForm.controls['sexe'].dirty || updateProfileForm.controls['sexe'].touched)" class="mt-2">
+                        <div *ngIf="updateProfileForm.controls['sexe'].errors?.['required']">
+                         <span class="text-danger">Ce champs est obligatoire</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group my-2">
+                      <label for="date" class="fw-bold mb-2">Date de naissance : </label>
+                      <input value="{{data[0].info[0].dateNaissance | date: 'yyyy-MM-dd'}}" formControlName="date"  name= "date" type="date" class="form-control" id="date">
+                      <div *ngIf="updateProfileForm.controls['date'].invalid && (updateProfileForm.controls['date'].dirty || updateProfileForm.controls['date'].touched)" class="mt-2">
+                        <div *ngIf="updateProfileForm.controls['date'].errors?.['required']">
+                         <span class="text-danger">Ce champs est obligatoire</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center my-3">
+                    <button [disabled]="!updateProfileForm.valid" class="btn btn-success"><span><i class="bi bi-pencil-square"></i>
+                    </span> Modifier</button>
+                  </div>
+                  </div>
+                </form>
+            </mat-tab>
+            <mat-tab label="Changer le mot de passe">
+              <form [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPass()">
+                <div class="row d-felx justify-content-center p-3">
+                <div class="col-md-5">
+                  <div class="form-group my-2">
+                    <label for="oldPass" class="fw-bold mb-2">Ancien mot de passe : </label>
+                    <input formControlName="oldPass"  name= "oldPass" type="password" class="form-control" id="oldPass">
+                  </div>
+                  <div class="form-group my-2">
+                    <label for="newPass" class="fw-bold mb-2">Nouveau mot de passe : </label>
+                    <input  formControlName="newPass" name= "newPass" type="password" class="form-control" id="newPass">
+                  </div>
+                  <div class="form-group my-2">
+                    <label for="confirmPass" class="fw-bold mb-2">Confirmer mot de passe : </label>
+                    <input formControlName="confirmPass" name= "confirmPass" type="password" class="form-control" id="confirmPass">
+                  </div>
+                </div>
+                <div class="text-center my-3">
+                  <button class="btn btn-success" [disabled]="!updatePasswordForm.valid">
+                    <span><i class="bi bi-hourglass-bottom"></i>
+                    </span>
+                    Enregistrer</button>
+                </div>
+                </div>
+              </form>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

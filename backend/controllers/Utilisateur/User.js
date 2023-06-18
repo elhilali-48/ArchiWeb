@@ -16,13 +16,17 @@ dotenv.config();
 
 module.exports.changePassword = async(req,res)=>{
     try {
+      
         const user = await Users.findById(req.params.id);
+        
         if(!user){
-            res.status("401").json({error : "User est introuvable dans la BDD"});
+            res.status(401).json({status : res.statusCode,error : "User est introuvable dans la BDD"});
         }
         const comparePassword  = await bcrypt.compare(req.body.oldPassword,user.password);
+
         if(!comparePassword){
-            res.json({error : "L'ancien mot de passe est incorrect."})
+            res.status(400).json({status : res.statusCode,message : "L'ancien mot de passe est incorrect."})
+            return;
         }
         // Crypter le nouveau mot de passe 
         const passwordCrypt = await bcrypt.hash(req.body.newPassword, 10);
@@ -30,9 +34,9 @@ module.exports.changePassword = async(req,res)=>{
         user.password = passwordCrypt
         // Sauvegarder les modifications dans la BDD
         const updatedPassword = await user.save();
-        res.status(200).json({ message: "Le mot a été bien modifié" });
+        res.status(200).json({status: res.statusCode, message: "Le mot a été bien modifié" });
     } catch (error) {
-        res.status(500).json({error : error.message})
+        res.status(500).json({status : res.statusCode,error : error.message})
     }
 }
 
@@ -153,4 +157,84 @@ module.exports.getInfo = async(req,res)=>{
       console.log("Error");
   }
   //res.json(user.role);
+}
+
+// ---------------------------------------- Modifier les informations dans profile -------------------------------------
+
+module.exports.updateProfile = async(req,res)=>{
+  try {
+    // Chercher l'user id 
+
+    const user = await Users.findById(req.params.id)
+    if(user){
+      // Selon le role on modifier les infos dans la table correspondante.
+      switch (user.role) {
+        case 'Enseignant':
+          const enseignant = await Enseignant.findOne({user_id:  user._id})
+          if(enseignant){
+            enseignant.nom = req.body.nom
+            enseignant.prenom = req.body.prenom
+            enseignant.dateNaissance = req.body.dateNaissance
+            enseignant.sexe = req.body.sexe
+
+            const saveDataEnseignant = await enseignant.save()
+
+            if(saveDataEnseignant){
+              res.status(200).json({status : res.statusCode,message: "Information modifié"})
+            }else{
+              res.status(400).json({status : res.statusCode,message: "Erruer !! Veuillez réessayer ultérieurement"})
+            }
+          }else{
+            res.status(400).json({status : res.statusCode,message: "Ancun Enseignant trouvé avec ce Id"})
+          }
+        break;
+        case 'Admin':
+          const admin = await Administrateur.findOne({user_id:  user._id})
+          if(admin){
+            admin.nom = req.body.nom
+            admin.prenom = req.body.prenom
+            admin.dateNaissance = req.body.dateNaissance
+            admin.sexe = req.body.sexe
+
+            const saveDataAdmin = await admin.save()
+
+            if(saveDataAdmin){
+              res.status(200).json({status : res.statusCode,message: "Information modifié"})
+            }else{
+              res.status(400).json({status : res.statusCode,message: "Erruer !! Veuillez réessayer ultérieurement"})
+            }
+          }else{
+            res.status(400).json({status : res.statusCode,message: "Ancun Administrateur trouvé avec ce Id"})
+          }
+        break;
+        case 'Etudiant':
+          const etudiant = await Etudiant.findOne({user_id:  user._id})
+          if(etudiant){
+            etudiant.nom = req.body.nom
+            etudiant.prenom = req.body.prenom
+            etudiant.dateNaissance = req.body.dateNaissance
+            etudiant.sexe = req.body.sexe
+
+            const saveDataEtudiant = await etudiant.save()
+
+            if(saveDataEtudiant){
+              res.status(200).json({status : res.statusCode,message: "Information modifié"})
+            }else{
+              res.status(400).json({status : res.statusCode,message: "Erruer !! Veuillez réessayer ultérieurement"})
+            }
+          }else{
+            res.status(400).json({status : res.statusCode,message: "Ancun Etudiant trouvé avec ce Id"})
+          }
+        break;
+        default:
+          console.log("Error");
+      }
+    }else{
+      res.status(401).json({status :res.statusCode, error : "Aucun utilisateur trouvé avec cet Id"})
+    }
+    
+  } catch (error) {
+    res.status(500).json({status : res.statusCode,error : error.message})
+
+  }
 }

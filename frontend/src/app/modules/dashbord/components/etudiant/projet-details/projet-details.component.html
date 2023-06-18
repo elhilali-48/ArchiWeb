@@ -58,17 +58,28 @@
         </ng-template>
       </div>
       <div class="mt-5 text-center">
-        <div *ngIf="data_etudiant.projetsInscrits.includes(data._id);else ajouter" >
-          <button (click)="abandonner(data._id)" class="btn btn-danger btn-lg"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            Ne plus suivre </button>
+        <div *ngFor="let item of data.resultatsEtudiants">
+          <div *ngIf="item.etudiantId == data_etudiant._id">
+            <div *ngIf="item.status == 'Terminé';else other">
+              <h3 class="text-center fw-bolder text-success fs-4">
+                <span><i class="bi bi-trophy-fill mx-2"></i></span>
+                Projet Terminé</h3>
+            </div>
+          </div>
         </div>
-        <ng-template #ajouter>
-          <button   *ngIf="data.status == 'En cours'" class="btn btn-success btn-lg" (click)="inscrire(data._id)"><i class="fa fa-rocket" aria-hidden="true"></i>
-            Commencer</button>
-        </ng-template>
+        <ng-template #other>
+          <div *ngIf="data_etudiant.projetsInscrits.includes(data._id);else ajouter" >
+            <button (click)="abandonner(data._id)" class="btn btn-danger btn-lg"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              Ne plus suivre </button>
+          </div>
+          <ng-template #ajouter>
+            <button   *ngIf="data.status == 'En cours'" class="btn btn-success btn-lg" (click)="inscrire(data._id)"><i class="fa fa-rocket" aria-hidden="true"></i>
+              Commencer</button>
+          </ng-template>
 
-        <button disabled *ngIf="data.status != 'En cours'" class="btn btn-warning btn-lg"><i class="fa fa-lock" aria-hidden="true"></i>
-          Archivé</button>
+          <button disabled *ngIf="data.status != 'En cours'" class="btn btn-warning btn-lg"><i class="fa fa-lock" aria-hidden="true"></i>
+            Archivé</button>
+        </ng-template>
       </div>
     </div>
   </div>
