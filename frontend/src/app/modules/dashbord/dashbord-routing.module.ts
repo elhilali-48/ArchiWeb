@@ -20,6 +20,7 @@ import { MesProjetsComponent } from './components/etudiant/mes-projets/mes-proje
 import { GererProjetComponent } from './components/etudiant/gerer-projet/gerer-projet.component';
 import { ProjetResultatsComponent } from './components/enseignant/projet-resultats/projet-resultats.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { DashbordComponent } from './components/dashbord/dashbord.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
     path : '',
     component : HomeComponent,
     children : [
+      {
+        path : '',
+        component : DashbordComponent
+      },
       // Route pour Administrateur
       {
         path : 'enseignant',

@@ -9,11 +9,12 @@
   <h4 class="name">{{data.info[0].nom | uppercase}}</h4>
   <p class="designation">{{data.role}}</p>
   <!-- Etudiant -->
+  <button mat-button class="menu-button" (click)="goToDashbord()">
+    <mat-icon class="icon-header">dashboard</mat-icon>
+    <span >Dashboard</span>
+  </button>
   <div *ngIf="data.role === 'Etudiant'">
-    <button mat-button class="menu-button">
-      <mat-icon class="icon-header">dashboard</mat-icon>
-      <span >Dashboard</span>
-    </button>
+
     <button mat-button class="menu-button" routerLink="projet_liste">
       <mat-icon class="icon-header">home</mat-icon>
       <span >projets</span>
@@ -25,10 +26,10 @@
   </div>
   <!-- Admin -->
   <div *ngIf="data.role === 'Admin'">
-    <button mat-button class="menu-button" routerLink="/">
+    <!-- <button mat-button class="menu-button" routerLink="/">
       <mat-icon class="icon-header">dashboard</mat-icon>
       <span >Dashbord</span>
-    </button>
+    </button> -->
     <button mat-button class="menu-button" routerLinkActive="active" routerLink="enseignant">
       <mat-icon class="icon-header">group</mat-icon>
       <span >Enseignants</span>
@@ -44,10 +45,10 @@
   </div>
   <!-- Enseignats -->
   <div *ngIf="data.role === 'Enseignant'">
-    <button mat-button class="menu-button">
+    <!-- <button mat-button class="menu-button">
       <mat-icon class="icon-header">home</mat-icon>
       <span >Dashbord</span>
-    </button>
+    </button> -->
     <button mat-button class="menu-button" routerLink="projet">
       <mat-icon class="icon-header">folder_shared</mat-icon>
       <span >Mes projets</span>

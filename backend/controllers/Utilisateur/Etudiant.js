@@ -143,15 +143,21 @@ module.exports.updateEtudiant = async(req,res)=>{
 
 module.exports.deleteEtudiant = async(req,res)=>{
   try {
-    const etudiant = await Etudiant.findOneAndRemove({ user_id: req.params.id })
+    const etudiant = await Etudiant.findOne({ user_id: req.params.id })
       if (!etudiant) {
         return res.status(404).json({status : res.statusCode, message: "L'étudiant n'a pas été trouvé" });
       }
+
+      if(etudiant.projetsInscrits.length > 0){
+        return res.status(404).json({status : res.statusCode, message: "L'étudiant est inscrits dans un projet, impossible de le supprimer" });
+      }
       // Supprime également l'enregistrement dans l'autre table
-    const user = await Users.findOneAndRemove({ _id: req.params.id })
+    const user = await Users.findOne({ _id: req.params.id })
       if(!user){
         return res.status(404).json({status : res.statusCode, message: "L'user n'a pas été trouvé" });
       }
+      await Etudiant.deleteOne({ user_id: req.params.id });
+      await Users.deleteOne({ _id: req.params.id });
     res.status(201).json({status : res.statusCode , message : "L'étudiant a été bien supprimé" })
   } catch (error) {
     res.status(401).json({status : res.statusCode,error : error.message})

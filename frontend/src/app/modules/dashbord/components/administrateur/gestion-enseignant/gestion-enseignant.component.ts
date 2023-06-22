@@ -63,7 +63,7 @@ export class GestionEnseignantComponent implements OnInit {
         );
       },
       columns: [
-        { data: '_id' },
+        // { data: '_id' },
         { data: 'email' },
         { data: 'createdAt' },
         { data: 'role' },

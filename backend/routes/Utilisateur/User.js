@@ -14,6 +14,7 @@ router.post('/login',userControlleur.login);
 router.get('/profile',userControlleur.profile);
 router.get('/getInfo/:id',userControlleur.getInfo);
 router.put('/updateProfile/:id',userControlleur.updateProfile)
+router.get('/statistique/:id',userControlleur.getStatistique)
 
 
 

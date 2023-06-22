@@ -60,7 +60,7 @@ export class GestionEtudiantComponent implements OnInit {
         );
       },
       columns: [
-        { data: '_id' },
+        // { data: '_id' },
         { data: 'email' },
         { data: 'createdAt' },
         { data: 'role' },

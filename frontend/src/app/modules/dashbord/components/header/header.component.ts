@@ -41,5 +41,10 @@ export class HeaderComponent {
     this.router.navigate(['/'])
   }
 
+  goToDashbord(){
+    this.router.navigate(['/dashbord'])
+
+  }
+
 }
 

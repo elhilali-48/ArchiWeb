@@ -2,6 +2,7 @@
 const bcrypt = require("bcrypt");
 const Users = require("../../models/Users");
 const Admin = require("../../models/Administrateur");
+const Projet = require("../../models/Projet")
 const Etudiant = require("../../models/Etudiant");
 const Enseignant = require("../../models/Enseignant");
 const passport = require("passport");
@@ -236,5 +237,105 @@ module.exports.updateProfile = async(req,res)=>{
   } catch (error) {
     res.status(500).json({status : res.statusCode,error : error.message})
 
+  }
+}
+
+// --------------------------------- Statistique Dashbord ----------------------------------------------
+
+module.exports.getStatistique = async(req,res)=>{
+  try {
+    const user = await Users.findById(req.params.id);
+    if(user){
+      // Statistique pour Administrateur
+      if(user.role == "Admin"){
+        
+        const nbEtudiant = await Etudiant.count();
+        const nbEnseignant = await Enseignant.count();
+        const nbAdmin = await Administrateur.count();
+        res.status(200).json({status : res.statusCode,user,statAdmin : {nbAdmin,nbEnseignant,nbEtudiant}})
+      }
+
+      if(user.role == "Etudiant"){
+        
+        const etudiant = await Etudiant.findOne({user_id : user._id})
+        // count projects
+        const countOfProjects = etudiant.projetsInscrits.length
+        // count competences acquis
+        const countCompetence = etudiant.competences.length
+
+        res.status(200).json({status : res.statusCode, user,statEtud : {countOfProjects,countCompetence}})
+      }
+
+      // Statistique pour Enseignant
+      if(user.role == "Enseignant"){
+        const enseignant = await Enseignant.findOne({user_id : user._id})
+        
+        // Nommbre de projet
+        const projetCount = await Projet.count({enseignant_id: enseignant._id});
+        // Nombre de projet active
+        const projetArchive = await Projet.count({
+          $and: [
+            { status: "Archivé" },
+            { enseignant_id: enseignant._id }
+          ]
+        });
+        // Nombre de projet Actif
+        const projetActif = await Projet.count({
+          $and: [
+            { status: "En cours" },
+            { enseignant_id: enseignant._id }
+          ]
+        });
+        // Nombre des étudiants total dans tous mes projets
+
+        const countEtudiants = await Projet.aggregate([
+          {
+            $match: { enseignant_id: enseignant._id }
+          },
+          {
+            $group: {
+              _id: null,
+              totalEtudiants: { $sum: { $size: "$resultatsEtudiants" } }
+            }
+          }
+        ]);
+
+        // Nombres des étudiants qui ont réussi leur projet 
+
+        const projets = await Projet.find({enseignant_id: enseignant._id});
+
+        let countEtudiantsTermines = 0;
+        projets.forEach(projet => {
+          const etudiantsTermines = projet.resultatsEtudiants.filter(etudiant => etudiant.status === "Terminé");
+          countEtudiantsTermines += etudiantsTermines.length;
+        });
+
+        // Nombre des étudiants qui ont En cours
+
+        let countEtudiantsEncours = 0;
+        projets.forEach(projet => {
+          const etudiantsEncours = projet.resultatsEtudiants.filter(etudiant => etudiant.status === "En cours");
+          countEtudiantsEncours += etudiantsEncours.length;
+        });
+
+         // Nombre des étudiants qui ont abondonnée
+
+         let countEtudiantsAbondon = 0;
+         projets.forEach(projet => {
+           const etudiantsAbondone = projet.resultatsEtudiants.filter(etudiant => etudiant.status === "Abonndoné");
+           countEtudiantsAbondon += etudiantsAbondone.length;
+         });
+
+        res.status(200).json({status : res.statusCode,user,stat : {projetCount,projetArchive,projetActif,countEtudiantsEncours,countEtudiants,countEtudiantsTermines,countEtudiantsEncours,countEtudiantsAbondon}})
+      }
+      // Statistique pour Etudiant
+      if(user.role == "Etudiant"){
+
+      }
+    }else{
+      res.status(401).json({status : res.statusCode,message : "Aucun utilisateur trouvé avec cet ID"})
+    }
+  } catch (error) {
+    res.status(500).json({status : res.statusCode,error : error.message})
   }
 }

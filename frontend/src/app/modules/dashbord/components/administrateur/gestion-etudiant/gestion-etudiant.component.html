@@ -8,7 +8,7 @@
       <table datatable class="row-border" [dtOptions]="dtOptions">
         <thead>
           <tr>
-            <th>id</th>
+            <!-- <th>id</th> -->
             <th>Email</th>
             <th>Date de naissance</th>
             <th>Date de création</th>
@@ -17,7 +17,7 @@
         </thead>
         <tbody *ngIf="persons?.length != 0">
           <tr *ngFor="let person of persons">
-            <td>{{person._id}}</td>
+            <!-- <td>{{person._id}}</td> -->
             <td>{{person.email}}</td>
             <td>{{person.role}}</td>
             <td>{{person.createdAt | date}}</td>
@@ -28,7 +28,7 @@
               <button class="btn btn-primary btn-sm mx-1" (click)="updateEtudiant(person._id)">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button class="btn btn-warning btn-sm " (click)="deleteEtudiant(person._id)">
+              <button class="btn btn-danger btn-sm " (click)="deleteEtudiant(person._id)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
