@@ -70,6 +70,7 @@ export class GererProjetComponent {
       status
     }
     this.http.post<any>(url,data).subscribe(res=>{
+      this.sommeProgressions = 0
       this.loadData()
       Swal.fire('Compétence modifié!', '', 'success')
     },err=>{
@@ -95,6 +96,7 @@ export class GererProjetComponent {
       progress
     }
     this.http.post<any>(url,data).subscribe(res=>{
+      this.sommeProgressions = 0
       this.loadData()
     },err=>{
       //Error
@@ -117,6 +119,8 @@ export class GererProjetComponent {
     }
     this.http.post<any>(url,data).subscribe(res=>{
       Swal.fire('Félicitation Vous avez terminé le projet', '', 'success')
+      this.sommeProgressions = 0
+      this.loadData()
     },err=>{
       //Error
       Swal.fire({

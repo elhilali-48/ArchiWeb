@@ -93,9 +93,9 @@ export class GestionProjetComponent implements OnInit {
           const url = `http://localhost:3500/projet/delete/${id}`
 
           this.http.delete<any>(url).subscribe(res=>{
-            console.log(res)
             Swal.fire(res.message, '', 'success')
-            this.router.navigate(['/dashbord/projet'])
+            this.ngOnInit()
+            location.reload()
 
           },err=>{
             console.log(err.error)

@@ -86,6 +86,7 @@ export class GestionEtudiantComponent implements OnInit {
           this.http.delete<any>(url).subscribe(res=>{
             console.log(res)
             Swal.fire(res.message, '', 'success')
+            location.reload()
             this.router.navigate(['/dashbord/etudiant'])
 
           },err=>{

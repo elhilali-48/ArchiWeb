@@ -53,29 +53,42 @@
         </div>
         <ng-template #templateName>
           <p class="my-3 gap-2" >
-            Ce cours s’adresse à tout public, sans prérequis particulier. Il est accessible à tous, aussi bien aux novices qu’aux passionnés de biologie.
+            Ce cours s’adresse à tout public, sans prérequis particulier. Il est accessible à tous.
           </p>
         </ng-template>
       </div>
       <div class="mt-5 text-center">
-        <div *ngFor="let item of data.resultatsEtudiants">
-          <div *ngIf="item.etudiantId == data_etudiant._id">
-            <div *ngIf="item.status == 'Terminé';else other">
-              <h3 class="text-center fw-bolder text-success fs-4">
-                <span><i class="bi bi-trophy-fill mx-2"></i></span>
-                Projet Terminé</h3>
+
+        <div *ngIf="data.resultatsEtudiants.length > 0;else inscriree">
+          <div *ngFor="let item of data.resultatsEtudiants">
+            <div *ngIf="item.etudiantId == data_etudiant._id">
+              <div *ngIf="item.status == 'Terminé'">
+                <h3 class="text-center fw-bolder text-success fs-4">
+                  <span><i class="bi bi-trophy-fill mx-2"></i></span>
+                  Projet Terminé</h3>
+              </div>
+              <div *ngIf="item.status == 'En cours'">
+                <button (click)="abandonner(data._id)" class="btn btn-danger btn-lg"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Ne plus suivre </button>
+              </div>
+              <div *ngIf="item.status == 'Abandonné'">
+                <button *ngIf="data.status == 'En cours'" class="btn btn-success btn-lg" (click)="inscrire(data._id)"><i class="fa fa-rocket" aria-hidden="true"></i>
+                  Reprendre</button>
+              </div>
+
             </div>
           </div>
         </div>
-        <ng-template #other>
-          <div *ngIf="data_etudiant.projetsInscrits.includes(data._id);else ajouter" >
+        <ng-template #inscriree>
+
+          <div *ngIf="data_etudiant.projetsInscrits.includes(data._id)" >
             <button (click)="abandonner(data._id)" class="btn btn-danger btn-lg"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
               Ne plus suivre </button>
           </div>
-          <ng-template #ajouter>
-            <button   *ngIf="data.status == 'En cours'" class="btn btn-success btn-lg" (click)="inscrire(data._id)"><i class="fa fa-rocket" aria-hidden="true"></i>
+          <div>
+            <button *ngIf="data.status == 'En cours'" class="btn btn-success btn-lg" (click)="inscrire(data._id)"><i class="fa fa-rocket" aria-hidden="true"></i>
               Commencer</button>
-          </ng-template>
+          </div>
 
           <button disabled *ngIf="data.status != 'En cours'" class="btn btn-warning btn-lg"><i class="fa fa-lock" aria-hidden="true"></i>
             Archivé</button>

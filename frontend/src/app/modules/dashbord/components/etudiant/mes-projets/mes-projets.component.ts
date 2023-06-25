@@ -23,7 +23,7 @@ export class MesProjetsComponent {
 
     const url = `http://localhost:3500/projet/mes_projets/${id}`
     this.http.get<any>(url).subscribe(res=>{
-     // console.log(res)
+      console.log(res)
       this.data = res.data
     },err=>{
       console.log(err)
@@ -37,5 +37,13 @@ export class MesProjetsComponent {
   }
   gereProjet(id : string){
     this.router.navigate(['/dashbord/gerer_projet/'+id])
+  }
+  getProgressionMoyenne(projet: any): number {
+    let totalProgression = 0;
+    for (const competence of projet.resultatsEtudiants.competencesAcquises) {
+      totalProgression += competence.progression;
+    }
+    const moyenne = totalProgression / projet.resultatsEtudiants.competencesAcquises.length;
+    return moyenne;
   }
 }

@@ -36,9 +36,18 @@ export class HeaderComponent {
 
   // Se déconnecter
   logout(){
+    const url = "http://localhost:3500/user/logout";
 
-    this.cookieService.deleteAll('userId')
-    this.router.navigate(['/'])
+    this.http.post<any>(url, {}).subscribe(
+      res => {
+        // Succès de la requête POST
+        this.cookieService.deleteAll();
+        this.router.navigate(['/']);
+      },
+      err => {
+        // Erreur de la requête POST
+      }
+    );
   }
 
   goToDashbord(){

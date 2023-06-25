@@ -11,6 +11,7 @@ const userControlleur = require("../../controllers/Utilisateur/User")
 
 router.put('/change_password/:id',userControlleur.changePassword);
 router.post('/login',userControlleur.login);
+router.post('/logout',userControlleur.logout);
 router.get('/profile',userControlleur.profile);
 router.get('/getInfo/:id',userControlleur.getInfo);
 router.put('/updateProfile/:id',userControlleur.updateProfile)

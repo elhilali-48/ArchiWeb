@@ -92,17 +92,20 @@ module.exports.deleteProjet = async (req, res) => {
       );
 
       if (enseignant) {
-        fs.unlink(`public/image/projet/${projett.imagePath}`, (err) => {
-          if (err) {
-            console.error(err);
-            res
-              .status(500)
-              .json({ error: "Erreur lors de la suppression du fichier" });
-          }
-          res
-            .status(200)
-            .json({ status: res.statusCode, message: "Projet Supprimer" });
-        });
+        if(projett.imagePath != "default.webp"){
+          fs.unlink(`public/image/projet/${projett.imagePath}`, (err) => {
+            if (err) {
+              console.error(err);
+              res
+                .status(500)
+                .json({ error: "Erreur lors de la suppression du fichier" });
+            }
+           
+          }); 
+        }
+        res
+          .status(200)
+          .json({ status: res.statusCode, message: "Projet Supprimer" });
       }
     } else {
       res.status(401).json({
@@ -171,12 +174,6 @@ module.exports.getAllProjets = async (req, res) => {
   } catch (error) {
     res.status(500).json({ status: res.statusCode, message: error.message });
   }
-  // try {
-  //     const projets = await Projet.find({}).populate("enseignant_id")
-  //     res.status(200).json({status : res.statusCode, projets});
-  // } catch (error) {
-  //     res.status(500).json({status :res.statusCode,error : error.message});
-  // }
 };
 
 //----------------------------------Récupérer les projets d'un seul enseignant -----------------
@@ -288,7 +285,7 @@ module.exports.inscrire_projet = async (req, res) => {
             etudiant.competences.find((compEtud) => compEtud.nom === comp)
           );
         }
-        if (verif) {
+        if (verif || projet.competence_requis.length == 0) {
           // Ajouter l'id du projet dans la collection Etudiant
           etudiant.projetsInscrits.push(req.body.id_projet);
           await etudiant.save();

@@ -73,6 +73,14 @@ module.exports.login = async(req,res,done)=>{
     }
 }
 
+// ----------------------------- Logout -------------------------------------
+
+module.exports.logout = async(req,res)=>{
+  
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.status(200).json({status :res.statusCode,message :"Logout success"})
+}
+
 module.exports.profile = async(req,res)=>{
     const authHeader = req.headers["authorization"];
     console.log(authHeader);
@@ -263,7 +271,38 @@ module.exports.getStatistique = async(req,res)=>{
         // count competences acquis
         const countCompetence = etudiant.competences.length
 
-        res.status(200).json({status : res.statusCode, user,statEtud : {countOfProjects,countCompetence}})
+        const countProjetTermine = await Projet.countDocuments({
+          'resultatsEtudiants.etudiantId': etudiant._id,
+          'resultatsEtudiants.status': 'Terminé'
+        });
+        const countProjetEncours = await Projet.countDocuments({
+          'resultatsEtudiants.etudiantId': etudiant._id,
+          'resultatsEtudiants.status': 'En cours'
+        });
+        const countProjetAbondonne = await Projet.countDocuments({
+          'resultatsEtudiants.etudiantId': etudiant._id,
+          'resultatsEtudiants.status': 'Abandonné'
+        });
+
+        // Progression Globale
+
+        const projetsInscrits = await Projet.find({
+          'resultatsEtudiants.etudiantId': etudiant._id
+        });
+        let totalProgression = 0;
+        let count = 0;
+
+        projetsInscrits.forEach(projet => {
+          const etudiantResultat = projet.resultatsEtudiants.find(resultat => resultat.etudiantId.toString() === etudiant._id.toString());
+          if (etudiantResultat) {
+            totalProgression += etudiantResultat.competencesAcquises.reduce((acc, competence) => acc + competence.progression, 0);
+            count++;
+          }
+        });
+        const progressionGlobale = count > 0 ? totalProgression / count : 0;
+
+
+        res.status(200).json({status : res.statusCode, user,statEtud : {progressionGlobale,countProjetTermine,countProjetEncours,countProjetAbondonne,countOfProjects,countCompetence}})
       }
 
       // Statistique pour Enseignant

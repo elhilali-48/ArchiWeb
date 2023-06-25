@@ -24,6 +24,10 @@ export class GestionEnseignantComponent implements OnInit {
   constructor(private http: HttpClient, private location: Location, private router : Router) {}
 
   ngOnInit(): void {
+    this.loadData()
+  }
+
+  loadData(){
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
@@ -43,7 +47,7 @@ export class GestionEnseignantComponent implements OnInit {
 
         this.http.get<DataTablesResponse>('http://localhost:3500/admin/getAllEnseignats', { params }).subscribe(
           resp => {
-            console.log(resp);
+            // console.log(resp);
             this.persons = resp.data;
 
             callback({
@@ -86,9 +90,11 @@ export class GestionEnseignantComponent implements OnInit {
           const url = `http://localhost:3500/enseignant/delete/${id}`
 
           this.http.delete<any>(url).subscribe(res=>{
-            console.log(res)
+           this.loadData()
+
+            // console.log(res)
             Swal.fire(res.message, '', 'success')
-            this.router.navigate(['/dashbord/enseignant'])
+            location.reload()
 
           },err=>{
             console.log(err.error)

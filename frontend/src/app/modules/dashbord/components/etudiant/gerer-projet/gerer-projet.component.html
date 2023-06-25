@@ -57,16 +57,19 @@
             <hr/>
           </div>
           <div class="row d-felx justify-content-start">
-            <div class="col-md-5 mx-3">
+            <div class="col-md-3 mx-3">
               <img src="https://openclassrooms.com/modules/learning-content/latest/images/requirements-136442472f42313d52d9.svg" alt="">
             </div>
-            <div class="col-md-5 d-grid gap-3">
+            <div class="col-md-5 my-3 d-grid gap-3">
               <ul class="list-group list-group-flush" *ngFor="let item of data.competence_requis">
                 <li class="list-group list-group-flush fs-5 fw-bolder">
                  <span><i class="bi bi-lamp"></i>
                  {{item}}</span>
                 </li>
               </ul>
+              <p class="fw-bolder fs-6" *ngIf="data.competence_requis.length == 0">
+                Ce projet ne nécessite aucun prérequis
+              </p>
             </div>
           </div>
         </mat-tab>
@@ -88,13 +91,13 @@
                     <th scope="row">{{comp.index}}</th>
                     <td>{{comp.nom}}</td>
                     <td>
-                      <input type="range" [disabled]="data.resultatsEtudiants.status == 'Terminé'" [value]="comp.progression" class="form-control-range" (change)="onChangeProgression($event, comp._id)" min="0" max="100">
+                      <input type="range" [disabled]="data.resultatsEtudiants.status == 'Terminé' || (i>0 && data.resultatsEtudiants.competencesAcquises[i-1]?.progression !== 100 ) " [value]="comp.progression" class="form-control-range" (change)="onChangeProgression($event, comp._id)" min="0" max="100">
                     </td>
                     <td>{{comp.etat}}</td>
                     <td>
-                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé'" class="btn badge bg-danger mx-1" (click)="changeStatus(comp._id,'Non acquise')" *ngIf="comp.etat != 'Non acquise'">Non acquise</button>
-                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé'" class="btn badge bg-primary mx-1" (click)="changeStatus(comp._id,'En cours')" *ngIf="comp.etat != 'En cours d\'acquisition'">En cours</button>
-                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé'" class="btn badge bg-success mx-1" (click)="changeStatus(comp._id,'Acquise')" *ngIf="comp.etat != 'Acquise'">Acquise</button>
+                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé' || (i>0 && data.resultatsEtudiants.competencesAcquises[i-1]?.progression !== 100 ) " class="btn badge bg-danger mx-1" (click)="changeStatus(comp._id,'Non acquise')" *ngIf="comp.etat != 'Non acquise'">Non acquise</button>
+                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé' || (i>0 && data.resultatsEtudiants.competencesAcquises[i-1]?.progression !== 100 )" class="btn badge bg-primary mx-1" (click)="changeStatus(comp._id,'En cours')" *ngIf="comp.etat != 'En cours d\'acquisition'">En cours</button>
+                      <button [disabled]="data.resultatsEtudiants.status == 'Terminé' || (i>0 && data.resultatsEtudiants.competencesAcquises[i-1]?.progression !== 100 )" class="btn badge bg-success mx-1" (click)="changeStatus(comp._id,'Acquise')" *ngIf="comp.etat != 'Acquise'">Acquise</button>
                     </td>
                   </tr>
                 </tbody>
@@ -110,10 +113,10 @@
         </mat-tab>
         <mat-tab label="Contributeur">
           <div class="row justify-content-around m-4">
-            <h1 class="fs-3 fw-bolder">Professeur : </h1>
+            <h1 class="fs-3 fw-bolder">Enseignant : </h1>
             <hr/>
             <div class="col-md-2">
-              <img src="https://user.oc-static.com/users/avatars/1625873440387_peb-oc.jpeg" class="rounded-pill" alt="">
+              <img src="https://cdn3.iconfinder.com/data/icons/education-248/128/4-512.png" width="150px" class="rounded-pill" alt="">
             </div>
             <div class="col-md-8">
               <h3 class="fw-bolder">{{data.enseignant[0].nom +" "+ data.enseignant[0].prenom |uppercase }}</h3>

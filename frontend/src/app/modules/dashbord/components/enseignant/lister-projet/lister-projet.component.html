@@ -11,7 +11,7 @@
 
       <!-- Card image -->
       <div class="view overlay">
-        <img width="50px" height="200px" class="card-img-top" [src]="'http://localhost:3500/images/'+projet.imagePath" 
+        <img width="50px" height="200px" class="card-img-top" [src]="'http://localhost:3500/images/'+projet.imagePath"
           alt="Card image cap">
           <span [class]="projet.status == 'En cours' ? 'badge bg-success' : 'badge bg-warning'">{{projet.status}}</span>
         <a href="#!">
@@ -32,7 +32,7 @@
         <p class="card-text">{{projet.enseignant_id.description}}</p>
         <!-- Button -->
         <div class="text-center">
-          <a href="#" class="btn btn-primary btn-xs" (click)="afficherProjet(projet._id)">
+          <a class="btn btn-primary btn-xs" (click)="afficherProjet(projet._id)">
             Voir
           </a>
         </div>
